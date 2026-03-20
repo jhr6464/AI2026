@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인공지능 이해하기 - AI 탐험대</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+        
+        :root {
+            --color1: #DEFFFC; /* Light Cyan */
+            --color2: #E2E4F6; /* Lavender Blue */
+            --color3: #E7C8DD; /* Pale Pink */
+            --color4: #D8AFC1; /* Rosy Pink */
+            --color5: #86626E; /* Deep Rose Brown */
+            --text-main: #4A3B42;
+        }
+
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #F9F7F8;
+            color: var(--text-main);
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .icon-box {
+            background-color: var(--color1);
+            border-radius: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color5);
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+        }
+
+        .card-shadow {
+            box-shadow: 0 30px 60px -12px rgba(134, 98, 110, 0.15);
+        }
+
+        /* Modal Styles */
+        #image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(74, 59, 66, 0.95);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        #image-modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            max-width: 95%;
+            max-height: 85vh;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.4);
+            object-fit: contain;
+            border: 6px solid var(--color2);
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            color: var(--color1);
+            font-size: 45px;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        /* Custom UI Elements */
+        .btn-gradient {
+            background: linear-gradient(135deg, var(--color5) 0%, var(--color4) 100%);
+            color: white;
+        }
+
+        .btn-outline-custom {
+            border: 2px solid var(--color5);
+            color: var(--color5);
+            background: transparent;
+        }
+
+        .btn-outline-custom:hover {
+            background-color: var(--color5);
+            color: white;
+        }
+
+        /* External Button Group Style */
+        .external-btn {
+            background-color: white;
+            color: var(--color5);
+            border: 1px solid var(--color2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .external-btn:hover {
+            background-color: var(--color1);
+            border-color: var(--color4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px -5px rgba(134, 98, 110, 0.1);
+        }
+        
+        /* Specific Video Button Highlight */
+        .video-btn:hover {
+            background-color: var(--color2);
+        }
+    </style>
+</head>
+<body class="min-h-screen p-4 md:p-10 flex flex-col items-center">
+
+    <!-- Header -->
+    <header class="max-w-4xl w-full text-center mb-10">
+        <div class="inline-block bg-[#E2E4F6] text-[#86626E] px-5 py-1.5 rounded-full text-sm font-bold mb-4 border border-[#D8AFC1]">
+            AI 학술 브리핑 & 히스토리
+        </div>
+        <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-[#86626E]">
+            EXPLORE <span class="text-[#D8AFC1]">AI</span>
+        </h1>
+        <p class="text-[#86626E] opacity-70 font-medium">새로운 컬러 팔레트로 재구성된 인공지능 탐험</p>
+    </header>
+
+    <!-- Action Buttons (Outside the card) -->
+    <div id="action-section" class="max-w-3xl w-full mb-4 flex justify-end gap-3">
+        <!-- Video Button -->
+        <a href="ai04.mp4" target="_blank" class="external-btn video-btn flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold shadow-sm">
+            <i class="fa-solid fa-circle-play text-lg text-[#86626E]"></i>
+            <span>동영상보기</span>
+        </a>
+        <!-- Download Button -->
+        <a href="ai03.pdf" download="ai03.pdf" class="external-btn flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold shadow-sm">
+            <i class="fa-solid fa-file-pdf text-lg text-[#D8AFC1]"></i>
+            <span>슬라이드 다운로드</span>
+        </a>
+    </div>
+
+    <!-- Main Content Card -->
+    <main class="max-w-3xl w-full bg-white rounded-[40px] card-shadow overflow-hidden border border-[#E2E4F6] flex flex-col relative">
+        <!-- Progress Bar -->
+        <div id="progress-bar" class="flex h-3 bg-[#E2E4F6]"></div>
+
+        <div class="p-8 md:p-14 flex-grow">
+            <!-- Section Header -->
+            <div class="flex justify-between items-center mb-10">
+                <div class="flex items-center gap-4">
+                    <div id="section-icon-container" class="icon-box w-16 h-16 text-2xl"></div>
+                    <div>
+                        <span id="chapter-label" class="text-xs font-bold text-[#D8AFC1] uppercase tracking-widest"></span>
+                        <h2 id="section-title" class="text-2xl md:text-3xl font-black text-[#86626E]"></h2>
+                    </div>
+                </div>
+                <div id="section-number" class="hidden md:block text-5xl font-black text-[#E2E4F6]"></div>
+            </div>
+
+            <!-- Content Area -->
+            <div id="content-area" class="min-h-[350px] leading-relaxed"></div>
+
+            <!-- Navigation -->
+            <div class="mt-16 flex flex-col md:flex-row justify-between items-center gap-6">
+                <button id="prev-btn" class="group flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-gray-400 hover:text-[#86626E] hover:bg-[#E2E4F6] transition-all">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    이전으로
+                </button>
+
+                <div id="dots-container" class="flex gap-2"></div>
+
+                <button id="next-btn" class="flex items-center gap-3 px-10 py-4 rounded-2xl btn-gradient font-black shadow-lg hover:scale-105 active:scale-95 transition-all">
+                    <span>다음 장으로</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Info -->
+    <div class="max-w-3xl w-full mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="p-6 bg-[#DEFFFC] rounded-[30px] flex items-center gap-4 border border-[#E2E4F6]">
+            <div class="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm">
+                <i class="fa-solid fa-star text-[#D8AFC1]"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-sm mb-1 text-[#86626E]">오늘의 인사이트</h4>
+                <p id="footer-summary" class="text-xs text-[#4A3B42] font-medium"></p>
+            </div>
+        </div>
+        <div class="p-6 bg-white border border-[#E2E4F6] rounded-[30px] text-center flex flex-col justify-center">
+            <p class="text-xs text-[#D8AFC1] font-bold mb-1">DESIGNED WITH CUSTOM PALETTE</p>
+            <p class="text-[10px] text-gray-300">#DEFFFC, #E2E4F6, #E7C8DD, #D8AFC1, #86626E</p>
+        </div>
+    </div>
+
+    <!-- Image Modal -->
+    <div id="image-modal" onclick="closeModal()">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <img src="ai02.jpg" alt="AI 연대기 인포그래픽" class="modal-content" onclick="event.stopPropagation()">
+    </div>
+
+    <script>
+        const sections = [
+            {
+                title: "학술적 인공지능 정의",
+                icon: '<i class="fa-solid fa-microchip"></i>',
+                summary: "인간의 지능적 작업을 모방하는 기술적 구조",
+                content: `
+                    <div class="space-y-6 fade-in">
+                        <p class="text-lg">인공지능은 단순히 프로그램을 만드는 것이 아니라 <b>학습, 추론, 자기 수정</b>이 가능한 시스템을 목표로 합니다.</p>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-[#E2E4F6] rounded-2xl border-l-8 border-[#86626E]">
+                                <h4 class="font-bold text-[#86626E] mb-1">인공지능 (AI)</h4>
+                                <p class="text-sm opacity-80">광범위한 기술 체계: 인간 지능의 기계적 구현</p>
+                            </div>
+                            <div class="p-4 bg-[#E7C8DD] rounded-2xl border-l-8 border-[#D8AFC1]">
+                                <h4 class="font-bold text-[#86626E] mb-1">머신러닝 (ML)</h4>
+                                <p class="text-sm opacity-80">데이터 학습: 스스로 패턴을 파악하여 예측 수행</p>
+                            </div>
+                            <div class="p-4 bg-[#DEFFFC] rounded-2xl border-l-8 border-[#86626E]">
+                                <h4 class="font-bold text-[#86626E] mb-1">딥러닝 (DL)</h4>
+                                <p class="text-sm opacity-80">신경망 구조: 다층적 분석을 통한 고도화된 지능</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "AI의 계절 이야기",
+                icon: '<i class="fa-solid fa-snowflake"></i>',
+                summary: "한계를 딛고 일어선 AI의 극적인 연대기",
+                content: `
+                    <div class="space-y-6 fade-in">
+                        <p>AI 연구는 1950년대 탄생 이후 여러 차례의 <b>'겨울'</b>을 견뎌내며 성장했습니다.</p>
+                        
+                        <div class="bg-[#F9F7F8] p-6 rounded-3xl border border-[#E7C8DD]">
+                            <ul class="space-y-4">
+                                <li class="flex gap-3">
+                                    <span class="text-[#D8AFC1] font-black">●</span>
+                                    <span class="text-sm"><b>제1차 겨울:</b> 논리적 한계(XOR 문제) 지적으로 인한 투자 중단</span>
+                                </li>
+                                <li class="flex gap-3">
+                                    <span class="text-[#D8AFC1] font-black">●</span>
+                                    <span class="text-sm"><b>제2차 겨울:</b> 전문가 시스템의 유지보수 한계와 지식 병목 현상</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="flex justify-center pt-2">
+                            <button onclick="openModal()" class="btn-outline-custom flex items-center gap-3 px-8 py-3.5 rounded-2xl font-black transition-all shadow-md group">
+                                <i class="fa-solid fa-image-portrait text-xl"></i>
+                                인포그래픽으로 보기
+                            </button>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "혁신의 기술적 동력",
+                icon: '<i class="fa-solid fa-rocket"></i>',
+                summary: "하드웨어와 아키텍처의 결합이 만든 도약",
+                content: `
+                    <div class="space-y-5 fade-in">
+                        <p>오늘날의 AI가 가능해진 이유는 세 가지 필수 요소가 충족되었기 때문입니다.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-5 bg-[#DEFFFC] rounded-3xl text-center">
+                                <i class="fa-solid fa-server text-3xl mb-3 text-[#86626E]"></i>
+                                <h4 class="font-bold mb-1 text-sm">GPU 연산력</h4>
+                                <p class="text-[11px] opacity-70">병렬 처리를 통한 고속 계산</p>
+                            </div>
+                            <div class="p-5 bg-[#E2E4F6] rounded-3xl text-center">
+                                <i class="fa-solid fa-database text-3xl mb-3 text-[#86626E]"></i>
+                                <h4 class="font-bold mb-1 text-sm">빅데이터</h4>
+                                <p class="text-[11px] opacity-70">학습을 위한 방대한 원재료</p>
+                            </div>
+                        </div>
+                        <div class="p-5 bg-[#E7C8DD] rounded-3xl border-2 border-white">
+                            <h4 class="font-bold text-[#86626E] flex items-center gap-2 mb-2">
+                                <i class="fa-solid fa-gears"></i> 트랜스포머 아키텍처
+                            </h4>
+                            <p class="text-xs leading-relaxed opacity-80">
+                                2017년 구글이 발표한 'Attention' 메커니즘은 GPT와 같은 거대 모델의 탄생을 이끌었습니다.
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            {
+                title: "거버넌스와 공존",
+                icon: '<i class="fa-solid fa-gavel"></i>',
+                summary: "안전하고 포용적인 AI 미래를 위한 약속",
+                content: `
+                    <div class="space-y-5 fade-in">
+                        <p>기술의 발전을 넘어, 이제는 <b>인류와의 상생</b>을 위한 정책이 필요합니다.</p>
+                        <div class="space-y-4">
+                            <div class="flex items-start gap-4 p-5 bg-white border border-[#E2E4F6] rounded-3xl shadow-sm">
+                                <div class="w-10 h-10 rounded-full bg-[#E2E4F6] flex-shrink-0 flex items-center justify-center text-[#86626E]">
+                                    <i class="fa-solid fa-globe"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">2024 서울 선언</h4>
+                                    <p class="text-xs opacity-70 mt-1">안전, 혁신, 포용의 3대 원칙을 전 세계가 합의했습니다.</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-4 p-5 bg-white border border-[#E7C8DD] rounded-3xl shadow-sm">
+                                <div class="w-10 h-10 rounded-full bg-[#E7C8DD] flex-shrink-0 flex items-center justify-center text-[#86626E]">
+                                    <i class="fa-solid fa-shield-halved"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold text-sm">자율적 에이전트</h4>
+                                    <p class="text-xs opacity-70 mt-1">스스로 목표를 수행하는 AI와 인간의 협력을 연구합니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function init() {
+            const progressBar = document.getElementById('progress-bar');
+            const dotsContainer = document.getElementById('dots-container');
+            
+            progressBar.innerHTML = '';
+            dotsContainer.innerHTML = '';
+
+            sections.forEach((_, i) => {
+                const segment = document.createElement('div');
+                segment.className = 'flex-1 transition-all duration-700';
+                segment.id = `progress-seg-${i}`;
+                progressBar.appendChild(segment);
+
+                const dot = document.createElement('button');
+                dot.className = 'h-2 rounded-full bg-[#E2E4F6] transition-all duration-300';
+                dot.id = `dot-${i}`;
+                dot.onclick = () => renderSection(i);
+                dotsContainer.appendChild(dot);
+            });
+
+            renderSection(0);
+        }
+
+        function renderSection(index) {
+            currentIndex = index;
+            const section = sections[currentIndex];
+
+            // Toggle action section visibility based on the current index (Chapter 1 only)
+            const actionSection = document.getElementById('action-section');
+            if (currentIndex === 0) {
+                actionSection.style.display = 'flex';
+                actionSection.classList.add('fade-in');
+            } else {
+                actionSection.style.display = 'none';
+            }
+
+            sections.forEach((_, i) => {
+                const seg = document.getElementById(`progress-seg-${i}`);
+                const dot = document.getElementById(`dot-${i}`);
+                if (i < currentIndex) {
+                    seg.style.backgroundColor = '#E7C8DD';
+                    dot.className = 'h-2 w-2 rounded-full bg-[#E7C8DD]';
+                } else if (i === currentIndex) {
+                    seg.style.backgroundColor = '#86626E';
+                    dot.className = 'h-2 w-10 rounded-full bg-[#86626E]';
+                } else {
+                    seg.style.backgroundColor = 'transparent';
+                    dot.className = 'h-2 w-2 rounded-full bg-[#E2E4F6]';
+                }
+            });
+
+            document.getElementById('section-icon-container').innerHTML = section.icon;
+            document.getElementById('chapter-label').innerText = `Lesson ${currentIndex + 1}`;
+            document.getElementById('section-title').innerText = section.title;
+            document.getElementById('section-number').innerText = `0${currentIndex + 1}`;
+            document.getElementById('content-area').innerHTML = section.content;
+            document.getElementById('footer-summary').innerText = section.summary;
+
+            document.getElementById('next-btn').querySelector('span').innerText = 
+                currentIndex === sections.length - 1 ? '처음부터 읽기' : '다음 장으로';
+        }
+
+        function openModal() {
+            document.getElementById('image-modal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('image-modal').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        document.getElementById('prev-btn').onclick = () => renderSection((currentIndex - 1 + sections.length) % sections.length);
+        document.getElementById('next-btn').onclick = () => renderSection((currentIndex + 1) % sections.length);
+
+        window.onload = init;
+    </script>
+</body>
+</html>
