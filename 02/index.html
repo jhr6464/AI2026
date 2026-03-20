@@ -1,304 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  Microchip, 
-  Snowflake, 
-  Rocket, 
-  Gavel, 
-  ArrowLeft, 
-  ArrowRight, 
-  FileText, 
-  PlayCircle,
-  Star,
-  Image as ImageIcon,
-  X,
-  Sun
-} from 'lucide-react';
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Explore - Vanilla JS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="min-h-screen bg-[#F9F7F8] p-4 md:p-10 flex flex-col items-center font-sans text-[#4A3B42]">
 
-const App = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const sections = [
-    {
-      title: "학술적 인공지능 정의",
-      icon: <Microchip className="w-8 h-8" />,
-      summary: "인간의 지능적 작업을 모방하는 기술적 구조",
-      color: "bg-[#DEFFFC]",
-      content: (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <p className="text-lg text-[#4A3B42]">인공지능은 단순히 프로그램을 만드는 것이 아니라 <b>학습, 추론, 자기 수정</b>이 가능한 시스템을 목표로 합니다.</p>
-          <div className="space-y-4">
-            <div className="p-4 bg-[#E2E4F6] rounded-2xl border-l-8 border-[#86626E]">
-              <h4 className="font-bold text-[#86626E] mb-1">인공지능 (AI)</h4>
-              <p className="text-sm opacity-80">광범위한 기술 체계: 인간 지능의 기계적 구현</p>
-            </div>
-            <div className="p-4 bg-[#E7C8DD] rounded-2xl border-l-8 border-[#D8AFC1]">
-              <h4 className="font-bold text-[#86626E] mb-1">머신러닝 (ML)</h4>
-              <p className="text-sm opacity-80">데이터 학습: 스스로 패턴을 파악하여 예측 수행</p>
-            </div>
-            <div className="p-4 bg-[#DEFFFC] rounded-2xl border-l-8 border-[#86626E]">
-              <h4 className="font-bold text-[#86626E] mb-1">딥러닝 (DL)</h4>
-              <p className="text-sm opacity-80">신경망 구조: 다층적 분석을 통한 고도화된 지능</p>
-            </div>
-          </div>
+    <header class="max-w-4xl w-full text-center mb-10">
+        <div class="inline-block bg-[#E2E4F6] text-[#86626E] px-5 py-1.5 rounded-full text-sm font-bold mb-4 border border-[#D8AFC1]">
+            AI 학술 브리핑 & 히스토리
         </div>
-      )
-    },
-    {
-      title: "AI의 계절 이야기",
-      icon: <Snowflake className="w-8 h-8" />,
-      summary: "장밋빛 기대와 혹독한 침체가 빚어낸 혁신의 여정",
-      color: "bg-[#E2E4F6]",
-      content: (
-        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-          <p className="text-[#4A3B42]">AI의 역사는 새로운 돌파구에 따른 <b>'봄'</b>과 기술적 한계로 인한 <b>'겨울'</b>의 순환 구조를 가집니다.</p>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {/* AI의 봄 */}
-            <div className="bg-[#DEFFFC] p-5 rounded-3xl border border-[#86626E]/10">
-              <h4 className="font-bold text-[#86626E] flex items-center gap-2 mb-3">
-                <Sun className="w-4 h-4 text-orange-400" /> AI의 봄 (Spring)
-              </h4>
-              <p className="text-xs leading-relaxed text-[#4A3B42]">
-                새로운 기술적 돌파구가 등장하여 <b>"곧 인간 같은 기계가 나올 것"</b>이라는 장밋빛 기대와 함께 막대한 투자가 쏟아지는 시기입니다.
-              </p>
-            </div>
-
-            {/* AI의 겨울 */}
-            <div className="bg-[#E2E4F6] p-5 rounded-3xl border border-[#86626E]/10">
-              <h4 className="font-bold text-[#86626E] flex items-center gap-2 mb-3">
-                <Snowflake className="w-4 h-4 text-blue-400" /> AI의 겨울 (Winter)
-              </h4>
-              <p className="text-xs leading-relaxed text-[#4A3B42]">
-                기술이 현실적 한계에 부딪혀 기대가 실망으로 바뀌고, <b>자금 지원이 끊기며</b> 연구가 정체되는 혹독한 침체기입니다.
-              </p>
-            </div>
-          </div>
-
-          <div className="flex justify-center pt-2">
-            <button 
-              onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-3 px-8 py-3.5 rounded-2xl font-black transition-all shadow-md border-2 border-[#86626E] text-[#86626E] hover:bg-[#86626E] hover:text-white group"
-            >
-              <ImageIcon className="w-5 h-5" />
-              인포그래픽으로 보기
-            </button>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "혁신의 기술적 동력",
-      icon: <Rocket className="w-8 h-8" />,
-      summary: "하드웨어와 아키텍처의 결합이 만든 도약",
-      color: "bg-[#E7C8DD]",
-      content: (
-        <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-500 text-[#4A3B42]">
-          <p>오늘날의 AI가 가능해진 이유는 세 가지 필수 요소가 충족되었기 때문입니다.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-5 bg-[#DEFFFC] rounded-3xl text-center flex flex-col items-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#86626E] mb-2">
-                <Rocket className="w-8 h-8" />
-              </div>
-              <h4 className="font-bold mb-1 text-sm">GPU 연산력</h4>
-              <p className="text-[11px] opacity-70">병렬 처리를 통한 고속 계산</p>
-            </div>
-            <div className="p-5 bg-[#E2E4F6] rounded-3xl text-center flex flex-col items-center">
-              <div className="w-12 h-12 flex items-center justify-center text-[#86626E] mb-2">
-                <FileText className="w-8 h-8" />
-              </div>
-              <h4 className="font-bold mb-1 text-sm">빅데이터</h4>
-              <p className="text-[11px] opacity-70">학습을 위한 방대한 원재료</p>
-            </div>
-          </div>
-          <div className="p-5 bg-[#E7C8DD] rounded-3xl border-2 border-white">
-            <h4 className="font-bold text-[#86626E] flex items-center gap-2 mb-2">
-              트랜스포머 아키텍처
-            </h4>
-            <p className="text-xs leading-relaxed opacity-80">
-              2017년 구글이 발표한 'Attention' 메커니즘은 GPT와 같은 거대 모델의 탄생을 이끌었습니다.
-            </p>
-          </div>
-        </div>
-      )
-    },
-    {
-      title: "거버넌스와 공존",
-      icon: <Gavel className="w-8 h-8" />,
-      summary: "안전하고 포용적인 AI 미래를 위한 약속",
-      color: "bg-[#D8AFC1]",
-      content: (
-        <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-500 text-[#4A3B42]">
-          <p>기술의 발전을 넘어, 이제는 <b>인류와의 상생</b>을 위한 정책이 필요합니다.</p>
-          <div className="space-y-4">
-            <div className="flex items-start gap-4 p-5 bg-white border border-[#E2E4F6] rounded-3xl shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[#E2E4F6] flex-shrink-0 flex items-center justify-center text-[#86626E]">
-                <Star className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm">2024 서울 선언</h4>
-                <p className="text-xs opacity-70 mt-1">안전, 혁신, 포용의 3대 원칙을 전 세계가 합의했습니다.</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-4 p-5 bg-white border border-[#E7C8DD] rounded-3xl shadow-sm">
-              <div className="w-10 h-10 rounded-full bg-[#E7C8DD] flex-shrink-0 flex items-center justify-center text-[#86626E]">
-                <Microchip className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm">자율적 에이전트</h4>
-                <p className="text-xs opacity-70 mt-1">스스로 목표를 수행하는 AI와 인간의 협력을 연구합니다.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )
-    }
-  ];
-
-  const handleNext = () => setCurrentIndex((prev) => (prev + 1) % sections.length);
-  const handlePrev = () => setCurrentIndex((prev) => (prev - 1 + sections.length) % sections.length);
-
-  return (
-    <div className="min-h-screen bg-[#F9F7F8] p-4 md:p-10 flex flex-col items-center font-sans text-[#4A3B42]">
-      {/* Header */}
-      <header className="max-w-4xl w-full text-center mb-10">
-        <div className="inline-block bg-[#E2E4F6] text-[#86626E] px-5 py-1.5 rounded-full text-sm font-bold mb-4 border border-[#D8AFC1]">
-          AI 학술 브리핑 & 히스토리
-        </div>
-        <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-[#86626E]">
-          EXPLORE <span className="text-[#D8AFC1]">AI</span>
+        <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter text-[#86626E]">
+            EXPLORE <span class="text-[#D8AFC1]">AI</span>
         </h1>
-        <p className="text-[#86626E] opacity-70 font-medium">새로운 컬러 팔레트로 재구성된 인공지능 탐험</p>
-      </header>
+        <p class="text-[#86626E] opacity-70 font-medium">봄과 겨울의 순환으로 이해하는 인공지능 탐험</p>
+    </header>
 
-      {/* Action Buttons (Outside Card) */}
-      {currentIndex === 0 && (
-        <div className="max-w-3xl w-full mb-4 flex justify-end gap-3 animate-in fade-in duration-500">
-          <a 
-            href="ai04.mp4" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold bg-white text-[#86626E] border border-[#E2E4F6] shadow-sm hover:translate-y-[-3px] hover:bg-[#E2E4F6] transition-all"
-          >
-            <PlayCircle className="w-5 h-5" />
+    <div id="download-buttons" class="max-w-3xl w-full mb-4 flex justify-end gap-3 hidden">
+        <a href="ai04.mp4" target="_blank" class="flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold bg-white text-[#86626E] border border-[#E2E4F6] shadow-sm hover:translate-y-[-3px] hover:bg-[#E2E4F6] transition-all">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
             <span>동영상보기</span>
-          </a>
-          <a 
-            href="ai03.pdf" 
-            download="ai03.pdf"
-            className="flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold bg-white text-[#86626E] border border-[#E2E4F6] shadow-sm hover:translate-y-[-3px] hover:bg-[#DEFFFC] transition-all"
-          >
-            <FileText className="w-5 h-5 text-[#D8AFC1]" />
+        </a>
+        <a href="ai03.pdf" download class="flex items-center gap-3 px-6 py-3 rounded-2xl text-sm font-bold bg-white text-[#86626E] border border-[#E2E4F6] shadow-sm hover:translate-y-[-3px] hover:bg-[#DEFFFC] transition-all">
+            <svg class="w-5 h-5 text-[#D8AFC1]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             <span>슬라이드 다운로드</span>
-          </a>
-        </div>
-      )}
-
-      {/* Main Content Card */}
-      <main className="max-w-3xl w-full bg-white rounded-[40px] shadow-2xl overflow-hidden border border-[#E2E4F6] flex flex-col relative min-h-[600px]">
-        {/* Progress Bar */}
-        <div className="flex h-3 bg-[#E2E4F6]">
-          {sections.map((_, i) => (
-            <div 
-              key={i}
-              className={`flex-1 transition-all duration-700 ${i < currentIndex ? 'bg-[#E7C8DD]' : i === currentIndex ? 'bg-[#86626E]' : 'bg-transparent'}`}
-            />
-          ))}
-        </div>
-
-        <div className="p-8 md:p-14 flex-grow flex flex-col">
-          {/* Section Header */}
-          <div className="flex justify-between items-center mb-10">
-            <div className="flex items-center gap-4">
-              <div className={`w-16 h-16 rounded-3xl flex items-center justify-center text-[#86626E] ${sections[currentIndex].color}`}>
-                {sections[currentIndex].icon}
-              </div>
-              <div>
-                <span className="text-xs font-bold text-[#D8AFC1] uppercase tracking-widest">Lesson {currentIndex + 1}</span>
-                <h2 className="text-2xl md:text-3xl font-black text-[#86626E]">{sections[currentIndex].title}</h2>
-              </div>
-            </div>
-            <div className="hidden md:block text-5xl font-black text-[#E2E4F6]">0{currentIndex + 1}</div>
-          </div>
-
-          {/* Content Area */}
-          <div className="flex-grow">
-            {sections[currentIndex].content}
-          </div>
-
-          {/* Navigation */}
-          <div className="mt-16 flex flex-col md:flex-row justify-between items-center gap-6">
-            <button 
-              onClick={handlePrev}
-              className="flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-gray-400 hover:text-[#86626E] hover:bg-[#E2E4F6] transition-all"
-            >
-              <ArrowLeft className="w-5 h-5" />
-              이전으로
-            </button>
-
-            <div className="flex gap-2">
-              {sections.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setCurrentIndex(i)}
-                  className={`h-2 rounded-full transition-all duration-300 ${i === currentIndex ? 'w-10 bg-[#86626E]' : 'w-2 bg-[#E2E4F6]'}`}
-                />
-              ))}
-            </div>
-
-            <button 
-              onClick={handleNext}
-              className="flex items-center gap-3 px-10 py-4 rounded-2xl bg-gradient-to-br from-[#86626E] to-[#D8AFC1] text-white font-black shadow-lg hover:scale-105 active:scale-95 transition-all"
-            >
-              <span>{currentIndex === sections.length - 1 ? '처음부터 읽기' : '다음 장으로'}</span>
-              <ArrowRight className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </main>
-
-      {/* Footer Info */}
-      <div className="max-w-3xl w-full mt-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div className="p-6 bg-[#DEFFFC] rounded-[30px] flex items-center gap-4 border border-[#E2E4F6]">
-          <div className="bg-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-sm text-[#D8AFC1]">
-            <Star className="w-6 h-6" />
-          </div>
-          <div>
-            <h4 className="font-bold text-sm mb-1 text-[#86626E]">오늘의 인사이트</h4>
-            <p className="text-xs text-[#4A3B42] font-medium">{sections[currentIndex].summary}</p>
-          </div>
-        </div>
-        <div className="p-6 bg-white border border-[#E2E4F6] rounded-[30px] text-center flex flex-col justify-center">
-          <p className="text-xs text-[#D8AFC1] font-bold mb-1 uppercase">Visual Identity</p>
-          <p className="text-[10px] text-gray-300">#DEFFFC, #E2E4F6, #E7C8DD, #D8AFC1, #86626E</p>
-        </div>
-      </div>
-
-      {/* Image Modal */}
-      {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-[#4A3B42]/95 backdrop-blur-md p-4 animate-in fade-in duration-300"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <button 
-            className="absolute top-8 right-8 text-white hover:text-[#D8AFC1] transition-colors"
-            onClick={() => setIsModalOpen(false)}
-          >
-            <X className="w-10 h-10" />
-          </button>
-          <img 
-            src="ai02.png" 
-            alt="AI 연대기 인포그래픽" 
-            className="max-w-full max-h-[85vh] rounded-2xl shadow-2xl border-4 border-[#E2E4F6] object-contain animate-in zoom-in-95 duration-300"
-            onClick={(e) => e.stopPropagation()}
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/800x600?text=ai02.png+Not+Found";
-            }}
-          />
-        </div>
-      )}
+        </a>
     </div>
-  );
-};
 
-export default App;
+    <main class="max-w-3xl w-full bg-white rounded-[40px] shadow-2xl overflow-hidden border border-[#E2E4F6] flex flex-col relative min-h-[600px]">
+        <div id="progress-container" class="flex h-3 bg-[#E2E4F6]"></div>
+
+        <div class="p-8 md:p-14 flex-grow flex flex-col">
+            <div class="flex justify-between items-center mb-10">
+                <div class="flex items-center gap-4">
+                    <div id="section-icon-container" class="w-16 h-16 rounded-3xl flex items-center justify-center text-[#86626E]"></div>
+                    <div>
+                        <span id="lesson-label" class="text-xs font-bold text-[#D8AFC1] uppercase tracking-widest"></span>
+                        <h2 id="section-title" class="text-2xl md:text-3xl font-black text-[#86626E]"></h2>
+                    </div>
+                </div>
+                <div id="section-number" class="hidden md:block text-5xl font-black text-[#E2E4F6] opacity-50"></div>
+            </div>
+
+            <div id="content-area" class="flex-grow"></div>
+
+            <div class="mt-16 flex flex-col md:flex-row justify-between items-center gap-6">
+                <button id="prev-btn" class="flex items-center gap-2 px-6 py-3 rounded-2xl font-bold text-gray-400 hover:text-[#86626E] hover:bg-[#E2E4F6] transition-all">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
