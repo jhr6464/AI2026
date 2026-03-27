@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산광역시 인구 변화 및 고령화 실태 (2020-2024)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+        
+        /* User Palette Variables */
+        :root {
+            --color-light-cyan: #defffc;
+            --color-lavender: #e2e4f6;
+            --color-pale-pink: #e7c8dd;
+            --color-rose-dust: #d8afc1;
+            --color-deep-rose: #86626e;
+            --color-text-main: #4a3a3f;
+        }
+
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #fcfaff; 
+            color: var(--color-text-main); 
+        }
+
+        .chart-container { 
+            position: relative; 
+            width: 100%; 
+            max-width: 100%; 
+            margin-left: auto; 
+            margin-right: auto; 
+            height: 350px; 
+            max-height: 400px; 
+        }
+        @media (min-width: 768px) { .chart-container { height: 400px; } }
+
+        .nav-sticky { position: sticky; top: 0; z-index: 50; }
+        
+        /* Custom UI Elements using the Palette */
+        .bg-custom-gradient {
+            background: linear-gradient(135deg, var(--color-deep-rose) 0%, #a37c8a 100%);
+        }
+        .card-shadow {
+            box-shadow: 0 10px 25px -5px rgba(134, 98, 110, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <!-- Palette Applied: #defffc (Light Cyan), #e2e4f6 (Lavender), #e7c8dd (Pale Pink), #d8afc1 (Rose Dust), #86626e (Deep Rose) -->
+
+    <nav class="nav-sticky bg-white/80 backdrop-blur-md border-b border-[#e2e4f6] py-3 px-6 md:px-12">
+        <div class="max-w-6xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="flex items-center text-[#86626e] hover:text-[#d8afc1] transition-colors duration-200">
+                <span class="font-black text-xl tracking-tighter">HOME</span>
+            </a>
+            <div class="hidden md:block text-sm font-medium text-[#86626e]/60 italic">
+                Busan Demographic Data Visualization
+            </div>
+        </div>
+    </nav>
+
+    <header class="bg-custom-gradient text-white py-16 px-6 md:px-12 shadow-inner">
+        <div class="max-w-6xl mx-auto">
+            <div class="inline-block px-3 py-1 rounded-full bg-[#defffc]/20 text-[#defffc] text-sm font-bold mb-4 tracking-widest uppercase">Statistical Report</div>
+            <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">부산광역시 초고령 사회 진입 리포트</h1>
+            <p class="text-xl font-light text-[#e2e4f6] max-w-2xl leading-relaxed">2020년부터 2024년까지의 데이터를 통해 부산의 인구 구조 변화를 분석했습니다. 차분한 색채 속에 담긴 급격한 인구 지형의 변화를 확인해 보세요.</p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-12 md:space-y-16">
+        
+        <!-- Key Metrics Section -->
+        <section>
+            <h2 class="text-2xl font-bold mb-8 text-[#86626e] flex items-center">
+                <span class="w-8 h-1 bg-[#d8afc1] mr-3"></span> 핵심 지표 (2024년)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl card-shadow p-8 border-b-8 border-[#defffc] flex flex-col items-center text-center">
+                    <span class="text-sm font-bold text-[#86626e]/50 uppercase tracking-widest mb-2">Total Population</span>
+                    <span class="text-4xl font-black text-[#86626e]">3,257,256</span>
+                    <span class="mt-4 px-3 py-1 rounded-full bg-[#defffc] text-[#4a3a3f] text-xs font-bold">5년간 9.1만 명 감소</span>
+                </div>
+                <div class="bg-white rounded-2xl card-shadow p-8 border-b-8 border-[#e7c8dd] flex flex-col items-center text-center">
+                    <span class="text-sm font-bold text-[#86626e]/50 uppercase tracking-widest mb-2">Elderly (60+)</span>
+                    <span class="text-4xl font-black text-[#86626e]">1,020,554</span>
+                    <span class="mt-4 px-3 py-1 rounded-full bg-[#e7c8dd] text-[#86626e] text-xs font-bold">사상 첫 100만 명 돌파</span>
+                </div>
+                <div class="bg-[#86626e] rounded-2xl card-shadow p-8 flex flex-col items-center text-center text-white">
+                    <span class="text-sm font-bold text-[#d8afc1] uppercase tracking-widest mb-2">Aging Ratio</span>
+                    <span class="text-5xl font-black text-[#defffc]">31.3%</span>
+                    <span class="mt-4 px-3 py-1 rounded-full bg-white/10 text-[#defffc] text-xs font-bold">초고령 사회 심화</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Trend Chart Section -->
+        <section class="bg-white rounded-3xl card-shadow overflow-hidden">
+            <div class="md:flex">
+                <div class="md:w-1/3 p-8 md:p-12 bg-[#e2e4f6]/30">
+                    <h2 class="text-2xl font-bold mb-6 text-[#86626e]">인구 데드크로스</h2>
+                    <p class="text-[#4a3a3f]/80 leading-relaxed mb-6">
+                        전체 인구의 감소세와 고령 인구의 증가세가 교차하는 지점을 지나, 이제는 그 격차가 매년 약 5만 명씩 벌어지고 있습니다. 이는 생산 가능 인구의 급격한 이탈과 부양 부담의 증가를 시사합니다.
+                    </p>
+                    <div class="space-y-4">
+                        <div class="flex items-center text-sm">
+                            <span class="w-3 h-3 rounded-full bg-[#86626e] mr-2"></span>
+                            <span class="font-medium text-[#86626e]">고령층 매년 +3만 명 증가</span>
+                        </div>
+                        <div class="flex items-center text-sm">
+                            <span class="w-3 h-3 rounded-full bg-[#defffc] border border-[#86626e] mr-2"></span>
+                            <span class="font-medium text-[#86626e]">총인구 매년 -2만 명 감소</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-2/3 p-8">
+                    <div class="chart-container">
+                        <canvas id="trendChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- District Comparison Section -->
+        <section class="bg-white rounded-3xl card-shadow p-8 md:p-12">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-[#86626e] mb-4">지역별 고령화 양극화</h2>
+                <div class="w-20 h-1 bg-[#d8afc1] mx-auto mb-6"></div>
+                <p class="text-[#4a3a3f]/70 max-w-2xl mx-auto italic">
+                    "원도심(40% 육박)과 신도시(19%) 사이의 간극은 행정 서비스의 집중 분야를 결정짓는 핵심 지표가 됩니다."
+                </p>
+            </div>
+            <div class="chart-container" style="height: 550px;">
+                <canvas id="barChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Scatter Chart Section -->
+        <section class="bg-white rounded-3xl card-shadow p-8 md:p-12 border-l-[12px] border-[#d8afc1]">
+            <div class="md:flex md:gap-12 items-center">
+                <div class="md:w-1/3">
+                    <h2 class="text-2xl font-bold mb-6 text-[#86626e]">고령화의 '속도'와 '깊이'</h2>
+                    <p class="text-[#4a3a3f]/80 leading-relaxed mb-8">
+                        단순한 비율을 넘어 <strong>진행 속도(Y축)</strong>에 주목해야 합니다. <strong>사상구</strong>와 <strong>해운대구</strong>는 현재 비중보다도 고령화가 진행되는 속도가 가장 가파른 '위험군'으로 분류됩니다.
+                    </p>
+                    <div class="p-6 rounded-2xl bg-[#defffc]/40 border border-[#86626e]/10">
+                        <h4 class="font-bold text-[#86626e] mb-2 text-sm uppercase">Quick insight</h4>
+                        <p class="text-sm text-[#4a3a3f]/70 italic">강서구는 유일하게 젊음을 유지하고 있으나, 그 외 모든 지역은 30% 선을 향해 수렴하고 있습니다.</p>
+                    </div>
+                </div>
+                <div class="md:w-2/3 mt-10 md:mt-0">
+                    <div class="chart-container">
+                        <canvas id="scatterChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-[#86626e] text-center py-12 text-[#e2e4f6]/60">
+        <div class="max-w-6xl mx-auto px-6">
+            <p class="text-sm tracking-widest uppercase mb-4">Busan Metropolitan City Data Report</p>
+            <div class="flex justify-center space-x-4 mb-6">
+                <span class="w-2 h-2 rounded-full bg-[#defffc]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#e2e4f6]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#e7c8dd]"></span>
+                <span class="w-2 h-2 rounded-full bg-[#d8afc1]"></span>
+            </div>
+            <p class="text-xs">데이터 출처: 부산광역시 통계 DB (2020-2024) | 본 보고서는 시각화 분석을 목적으로 제작되었습니다.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Chart Defaults
+        Chart.defaults.font.family = "'Noto Sans KR', sans-serif";
+        Chart.defaults.color = '#86626e';
+
+        const years = ['2020', '2021', '2022', '2023', '2024'];
+        const totalPop = [3349016, 3324335, 3295760, 3279604, 3257256];
+        const elderlyPop = [892277, 934024, 965387, 997993, 1020554];
+
+        // 1. Trend Line Chart
+        new Chart(document.getElementById('trendChart'), {
+            type: 'line',
+            data: {
+                labels: years,
+                datasets: [
+                    {
+                        label: '총 인구',
+                        data: totalPop,
+                        borderColor: '#defffc',
+                        backgroundColor: '#defffc',
+                        pointBackgroundColor: '#86626e',
+                        borderWidth: 4,
+                        yAxisID: 'y',
+                        tension: 0.4
+                    },
+                    {
+                        label: '고령 인구',
+                        data: elderlyPop,
+                        borderColor: '#86626e',
+                        backgroundColor: '#86626e',
+                        borderWidth: 4,
+                        yAxisID: 'y1',
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'top', align: 'end', labels: { boxWidth: 10, usePointStyle: true } }
+                },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { 
+                        position: 'left',
+                        min: 3200000, 
+                        max: 3400000,
+                        ticks: { display: false },
+                        grid: { borderDash: [5, 5] }
+                    },
+                    y1: { 
+                        position: 'right',
+                        min: 850000, 
+                        max: 1050000,
+                        ticks: { display: false },
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+
+        const districtData = [
+            { name: '영도구', percent: 39.4, growth: 5.2 },
+            { name: '중구', percent: 37.9, growth: 4.3 },
+            { name: '동구', percent: 37.0, growth: 3.3 },
+            { name: '서구', percent: 36.6, growth: 4.1 },
+            { name: '금정구', percent: 34.2, growth: 5.1 },
+            { name: '수영구', percent: 32.4, growth: 4.3 },
+            { name: '남구', percent: 32.0, growth: 4.8 },
+            { name: '부산진구', percent: 31.6, growth: 5.1 },
+            { name: '해운대구', percent: 31.2, growth: 5.6 },
+            { name: '사하구', percent: 31.0, growth: 5.6 },
+            { name: '연제구', percent: 30.8, growth: 5.1 },
+            { name: '사상구', percent: 30.8, growth: 6.3 },
+            { name: '북구', percent: 29.9, growth: 5.6 },
+            { name: '동래구', percent: 29.6, growth: 4.5 },
+            { name: '기장군', percent: 27.8, growth: 5.3 },
+            { name: '강서구', percent: 19.3, growth: 3.0 }
+        ];
+
+        // 2. Bar Chart
+        new Chart(document.getElementById('barChart'), {
+            type: 'bar',
+            data: {
+                labels: districtData.map(d => d.name),
+                datasets: [{
+                    data: districtData.map(d => d.percent),
+                    backgroundColor: districtData.map(d => d.percent > 35 ? '#86626e' : (d.percent < 25 ? '#defffc' : '#d8afc1')),
+                    borderRadius: 20,
+                    barThickness: 15
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { max: 45, grid: { borderDash: [5, 5] } },
+                    y: { grid: { display: false } }
+                }
+            }
+        });
+
+        // 3. Scatter Chart
+        new Chart(document.getElementById('scatterChart'), {
+            type: 'scatter',
+            data: {
+                datasets: [{
+                    label: '구별 고령화 속도',
+                    data: districtData.map(d => ({ x: d.percent, y: d.growth, name: d.name })),
+                    backgroundColor: '#e7c8dd',
+                    borderColor: '#86626e',
+                    borderWidth: 2,
+                    pointRadius: 10,
+                    hoverRadius: 15
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: (ctx) => `${ctx.raw.name}: 비중 ${ctx.raw.x}%, 증가폭 ${ctx.raw.y}%p`
+                        }
+                    },
+                    legend: { display: false }
+                },
+                scales: {
+                    x: { title: { display: true, text: '현재 고령 인구 비중 (%)' }, grid: { borderDash: [5, 5] } },
+                    y: { title: { display: true, text: '5년간 증가 속도 (%p)' }, grid: { borderDash: [5, 5] } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
