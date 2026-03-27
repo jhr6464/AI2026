@@ -12,13 +12,12 @@
             theme: {
                 extend: {
                     colors: {
-                        // 새 컬러 팔레트 적용
                         brand1: '#defffc', // 민트
                         brand2: '#e2e4f6', // 연보라
                         brand3: '#e7c8dd', // 핑크베이지
                         brand4: '#d8afc1', // 로즈
                         brand5: '#86626e', // 딥로즈 (텍스트용)
-                        darkBg: '#1a1618', // 팔레트와 어울리는 어두운 배경
+                        darkBg: '#1a1618', 
                         lightBg: '#fdfafb',
                     }
                 }
@@ -34,7 +33,6 @@
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Effect */
         .glass {
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(12px);
@@ -66,7 +64,6 @@
             box-shadow: 0 20px 40px rgba(134, 98, 110, 0.1);
         }
 
-        /* Card Color Accents */
         .card-accent {
             position: absolute;
             top: -20px;
@@ -82,7 +79,6 @@
             opacity: 0.5;
         }
 
-        /* Background Gradients */
         .bg-gradient-sphere {
             position: fixed;
             width: 600px;
@@ -93,7 +89,6 @@
             pointer-events: none;
         }
 
-        /* Scroll Animation Utility */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -104,7 +99,6 @@
             transform: translateY(0);
         }
 
-        /* Gradient Text */
         .text-gradient {
             background: linear-gradient(135deg, #86626e 0%, #d8afc1 100%);
             -webkit-background-clip: text;
@@ -132,16 +126,13 @@
 </head>
 <body class="custom-scrollbar bg-lightBg text-brand5 dark:bg-darkBg dark:text-brand2">
 
-    <!-- Theme Toggle Button -->
     <button id="theme-toggle" class="glass w-12 h-12 flex items-center justify-center rounded-full hover:scale-110 transition-transform active:scale-95">
         <i id="theme-icon" class="fas fa-sun text-brand4"></i>
     </button>
 
-    <!-- Decoration Background -->
     <div class="bg-gradient-sphere opacity-40" style="top: -100px; left: -100px; background: radial-gradient(circle, #defffc 0%, rgba(255, 255, 255, 0) 70%);"></div>
     <div class="bg-gradient-sphere opacity-30" style="bottom: -100px; right: -100px; background: radial-gradient(circle, #e7c8dd 0%, rgba(0, 0, 0, 0) 70%);"></div>
 
-    <!-- Header -->
     <header class="container mx-auto px-6 py-16 text-center reveal">
         <h1 class="text-sm font-semibold tracking-widest text-brand4 uppercase mb-4">Portfolio 2024</h1>
         <h2 class="text-4xl md:text-6xl font-extrabold mb-6 dark:text-brand2 text-brand5">AI 리터러시의 이해</h2>
@@ -150,7 +141,6 @@
         </p>
     </header>
 
-    <!-- Intro Section -->
     <section class="container mx-auto px-6 py-20">
         <div class="glass p-8 md:p-12 flex flex-col gap-10 reveal border-brand3/20">
             <div class="text-center">
@@ -159,7 +149,6 @@
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Goal 1 -->
                 <div class="flex items-center gap-5 p-5 rounded-2xl bg-brand1/30 dark:bg-white/5 border border-brand4/10">
                     <div class="w-14 h-14 bg-brand4/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-brand4/30">
                         <i class="fas fa-brain text-xl text-brand5"></i>
@@ -170,7 +159,6 @@
                     </div>
                 </div>
                 
-                <!-- Goal 2 -->
                 <div class="flex items-center gap-5 p-5 rounded-2xl bg-brand2/30 dark:bg-white/5 border border-brand4/10">
                     <div class="w-14 h-14 bg-brand4/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-brand4/30">
                         <i class="fas fa-chart-line text-xl text-brand5"></i>
@@ -181,7 +169,6 @@
                     </div>
                 </div>
                 
-                <!-- Goal 3 -->
                 <div class="flex items-center gap-5 p-5 rounded-2xl bg-brand3/30 dark:bg-white/5 border border-brand4/10">
                     <div class="w-14 h-14 bg-brand4/20 rounded-xl flex items-center justify-center flex-shrink-0 border border-brand4/30">
                         <i class="fas fa-lightbulb text-xl text-brand5"></i>
@@ -195,7 +182,6 @@
         </div>
     </section>
 
-    <!-- Portfolio Section -->
     <section class="container mx-auto px-6 py-20">
         <div class="mb-16 text-center reveal">
             <h3 class="text-4xl font-bold mb-4 text-brand5 dark:text-brand1">과제물 아카이브</h3>
@@ -207,7 +193,6 @@
         </div>
     </section>
 
-    <!-- About Me Section -->
     <section class="container mx-auto px-6 py-20">
         <div class="glass p-10 md:p-16 flex flex-col md:flex-row gap-12 items-center reveal border-brand3/20">
             <div class="w-48 h-48 rounded-full bg-gradient-to-tr from-brand1 via-brand3 to-brand4 p-1 flex-shrink-0 overflow-hidden shadow-lg">
@@ -237,7 +222,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="py-12 border-t border-brand4/10">
         <div class="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center text-brand5/40 text-sm">
             <p>&copy; 2024 장하리. All rights reserved.</p>
@@ -268,19 +252,27 @@
 
         themeToggle.addEventListener('click', toggleTheme);
 
-        // Data for Portfolio with updated colors from palette
         const assignments = [
             { 
                 id: "01", 
                 title: "AI의 이해", 
                 tool: "NotebookLM", 
-                color: "#defffc", // 민트
+                color: "#defffc", 
                 accent: "#86626e",
                 icon: "fa-brain", 
                 desc: "구글 노트북LM을 활용하여 AI의 정의, 역사적 발전 단계 및 생성형 AI의 핵심 개념을 체계적으로 분석하고 정리한 실습 페이지입니다.",
                 link: "./02/index.html"
             },
-            { id: "02", title: "프롬프트 엔지니어링 실습", tool: "ChatGPT", color: "#e2e4f6", accent: "#86626e", icon: "fa-terminal", desc: "효율적인 결과 도출을 위한 구조화된 프롬프트 설계 기법을 연구하고 적용한 사례입니다.", link: "#" },
+            { 
+                id: "02", 
+                title: "데이터 스토리텔링", 
+                tool: "Gemini", 
+                color: "#e2e4f6", 
+                accent: "#86626e", 
+                icon: "fa-terminal", 
+                desc: "제미나이를 활용해 인구 데이터를 스토리텔링 형식으로 분석하였습니다.", 
+                link: "./03/index.html" 
+            },
             { id: "03", title: "생성형 AI 이미지 분석", tool: "Midjourney", color: "#e7c8dd", accent: "#86626e", icon: "fa-palette", desc: "텍스트 기반 이미지 생성 도구의 스타일 일관성을 유지하는 파라미터 활용법을 분석했습니다.", link: "#" },
             { id: "04", title: "데이터 시각화 프로젝트", tool: "Tableau", color: "#d8afc1", accent: "#86626e", icon: "fa-chart-pie", desc: "공공 데이터를 활용하여 복잡한 정보 속에서 인사이트를 발견하고 시각적 차트로 구현했습니다.", link: "#" },
             { id: "05", title: "머신러닝 기초 모델링", tool: "Teachable Machine", color: "#defffc", accent: "#86626e", icon: "fa-robot", desc: "사용자의 제스처를 인식하여 디자인 소프트웨어를 제어하는 간단한 분류 모델을 제작했습니다.", link: "#" },
@@ -300,8 +292,6 @@
             card.onclick = () => {
                 if (item.link && item.link !== "#") {
                     window.location.href = item.link;
-                } else {
-                    console.log(`Link not set: ${item.title}`);
                 }
             };
 
