@@ -45,15 +45,46 @@
         .card-shadow {
             box-shadow: 0 10px 25px -5px rgba(134, 98, 110, 0.1);
         }
+        .btn-storybook {
+            background-color: rgba(222, 255, 252, 0.15);
+            border: 1px solid rgba(222, 255, 252, 0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-storybook:hover {
+            background-color: #defffc;
+            color: #86626e;
+        }
+        
+        /* Rilakkuma Silhouette Icon Styling */
+        .icon-rilakkuma {
+            width: 24px;
+            height: 18px;
+            fill: currentColor;
+            display: inline-block;
+            margin-right: 8px;
+        }
+        
+        /* Home Silhouette Icon Styling */
+        .icon-home {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+            display: inline-block;
+            margin-right: 6px;
+        }
     </style>
 </head>
 <body class="antialiased">
-    <!-- Palette Applied: #defffc (Light Cyan), #e2e4f6 (Lavender), #e7c8dd (Pale Pink), #d8afc1 (Rose Dust), #86626e (Deep Rose) -->
+    <!-- Palette Applied: #defffc, #e2e4f6, #e7c8dd, #d8afc1, #86626e -->
 
     <nav class="nav-sticky bg-white/80 backdrop-blur-md border-b border-[#e2e4f6] py-3 px-6 md:px-12">
         <div class="max-w-6xl mx-auto flex justify-between items-center">
             <a href="../index.html" class="flex items-center text-[#86626e] hover:text-[#d8afc1] transition-colors duration-200">
-                <span class="font-black text-xl tracking-tighter">HOME</span>
+                <!-- Home Silhouette Icon -->
+                <svg class="icon-home" viewBox="0 0 24 24">
+                    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+                </svg>
+                <span class="font-black text-xl tracking-tighter uppercase">Home</span>
             </a>
             <div class="hidden md:block text-sm font-medium text-[#86626e]/60 italic">
                 Busan Demographic Data Visualization
@@ -64,8 +95,24 @@
     <header class="bg-custom-gradient text-white py-16 px-6 md:px-12 shadow-inner">
         <div class="max-w-6xl mx-auto">
             <div class="inline-block px-3 py-1 rounded-full bg-[#defffc]/20 text-[#defffc] text-sm font-bold mb-4 tracking-widest uppercase">Statistical Report</div>
-            <h1 class="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">부산광역시 초고령 사회 진입 리포트</h1>
-            <p class="text-xl font-light text-[#e2e4f6] max-w-2xl leading-relaxed">2020년부터 2024년까지의 데이터를 통해 부산의 인구 구조 변화를 분석했습니다. 차분한 색채 속에 담긴 급격한 인구 지형의 변화를 확인해 보세요.</p>
+            
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <h1 class="text-4xl md:text-5xl font-black tracking-tight leading-tight">부산광역시 초고령 사회 진입 리포트</h1>
+                <a href="https://gemini.google.com/share/5ff8f48bb54f" target="_blank" class="btn-storybook inline-flex items-center justify-center px-6 py-3 rounded-xl font-bold text-[#defffc] text-sm md:text-base shrink-0 group">
+                    <!-- Rilakkuma Silhouette Icon (Custom SVG) -->
+                    <svg class="icon-rilakkuma" viewBox="0 0 100 70">
+                        <!-- Main face ellipse -->
+                        <ellipse cx="50" cy="40" rx="40" ry="30" />
+                        <!-- Left ear -->
+                        <circle cx="20" cy="20" r="12" />
+                        <!-- Right ear -->
+                        <circle cx="80" cy="20" r="12" />
+                    </svg>
+                    스토리북 보기
+                </a>
+            </div>
+            
+            <p class="text-xl font-light text-[#e2e4f6] max-w-2xl leading-relaxed mt-8">2020년부터 2024년까지의 데이터를 통해 부산의 인구 구조 변화를 분석했습니다. 차분한 색채 속에 담긴 급격한 인구 지형의 변화를 확인해 보세요.</p>
         </div>
     </header>
 
