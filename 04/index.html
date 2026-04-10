@@ -45,10 +45,11 @@
             <button onclick="toggleModal(true)" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-white transition-all shadow-sm border border-gray-100 text-sm font-medium hover:-translate-y-0.5">
                 <i data-lucide="image" class="w-4 h-4 text-blue-400"></i> 인포그래픽 보기
             </button>
-            <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-white transition-all shadow-sm border border-gray-100 text-sm font-medium hover:-translate-y-0.5">
+            <!-- Updated: Opens the video lecture link in a new tab -->
+            <button onclick="window.open('https://notebooklm.google.com/notebook/462075a1-8abf-4ffa-ade8-96c85ff77ded/artifact/5ac64562-052b-495a-a822-61bbf07c9133', '_blank')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-white transition-all shadow-sm border border-gray-100 text-sm font-medium hover:-translate-y-0.5">
                 <i data-lucide="play-circle" class="w-4 h-4 text-red-400"></i> 동영상 강의
             </button>
-            <button class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-white transition-all shadow-sm border border-gray-100 text-sm font-medium hover:-translate-y-0.5">
+            <button onclick="window.open('Sweet_IT_Basics.pdf', '_blank')" class="flex items-center gap-2 px-4 py-2 rounded-lg bg-white/80 hover:bg-white transition-all shadow-sm border border-gray-100 text-sm font-medium hover:-translate-y-0.5">
                 <i data-lucide="presentation" class="w-4 h-4 text-purple-400"></i> 슬라이드 자료
             </button>
         </div>
@@ -258,6 +259,8 @@
         function showMobileDetail(type) {
             const detail = document.getElementById('mobileDetail');
             const data = mobileData[type];
+
+            if(!data) return;
 
             document.getElementById('detailTitle').innerText = data.name + '의 특징';
             document.getElementById('detailDesc').innerText = data.desc;
