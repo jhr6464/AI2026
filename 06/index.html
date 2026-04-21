@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Portfolio Interactive Book</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <style>
+        :root {
+            --book-width: 450px;
+            --book-height: 600px;
+            --duration: 0.6s;
+        }
+
+        @media (max-width: 768px) {
+            :root {
+                --book-width: 320px;
+                --book-height: 450px;
+            }
+        }
+
+        body {
+            background-color: #1a1a1a;
+            perspective: 2000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Pretendard', sans-serif;
+        }
+
+        .book {
+            position: relative;
+            width: var(--book-width);
+            height: var(--book-height);
+            transition: transform var(--duration);
+            transform-style: preserve-3d;
+        }
+
+        /* 책이 펼쳐졌을 때 중앙으로 이동 */
+        .book.opened {
+            transform: translateX(calc(var(--book-width) / 2));
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            transform-origin: left;
+            transform-style: preserve-3d;
+            transition: transform var(--duration) cubic-bezier(0.645, 0.045, 0.355, 1);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .page-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            background: white;
+            box-shadow: inset 3px 0 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .page-face.front {
+            z-index: 2;
+        }
+
+        .page-face.back {
+            transform: rotateY(180deg);
+            z-index: 1;
+        }
+
+        /* 캔버스 스타일링 */
+        canvas {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .flipped {
+            transform: rotateY(-180deg);
+        }
+
+        .page-number {
+            position: absolute;
+            bottom: 10px;
+            font-size: 12px;
+            color: #999;
+        }
+
+        .front .page-number { right: 15px; }
+        .back .page-number { left: 15px; }
+
+        /* 로딩 애니메이션 */
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            color: white;
+        }
+
+        .spinner {
+            border: 4px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 4px solid #fff;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.9rem;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loader">
+        <div class="spinner"></div>
+        <p id="status-text">PDF 포트폴리오를 불러오는 중...</p>
+    </div>
+
+    <div class="book" id="book">
+        <!-- 페이지들이 여기에 동적으로 생성됩니다 -->
+    </div>
+
+    <div class="hint">페이지 양끝을 클릭하여 넘겨보세요</div>
+
+    <script>
+        const pdfUrl = 'aiportfolio.pdf';
+        const book = document.getElementById('book');
+        const loader = document.getElementById('loader');
+        const statusText = document.getElementById('status-text');
+        
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js';
+
+        let pdfDoc = null;
+        let totalPages = 0;
+        let currentPageIndex = 0; // 현재 가장 위에 있는 페이지 뭉치의 인덱스
+
+        async function initBook() {
+            try {
+                pdfDoc = await pdfjsLib.getDocument(pdfUrl).promise;
+                totalPages = pdfDoc.numPages;
+                
+                // 페이지 쌍 생성 (표지, 내지들, 뒷표지 순서 고려)
+                // 1페이지(표지), 2-3페이지(양면), ...
+                for (let i = 1; i <= totalPages; i += 2) {
+                    createPagePair(i);
+                }
+                
+                loader.style.display = 'none';
+            } catch (error) {
+                console.error('Error loading PDF:', error);
+                statusText.innerText = "PDF 파일을 찾을 수 없습니다. (aiportfolio.pdf 경로를 확인해주세요)";
+                document.querySelector('.spinner').style.display = 'none';
+            }
+        }
+
+        async function renderPageToCanvas(pageNum, canvas) {
+            if (pageNum > totalPages) return;
+            
+            const page = await pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: 2 }); // 고해상도 렌더링
+            const context = canvas.getContext('2d');
+            
+            canvas.height = viewport.height;
+            canvas.width = viewport.width;
+
+            await page.render({
+                canvasContext: context,
+                viewport: viewport
+            }).promise;
+        }
+
+        function createPagePair(startNum) {
+            const pageDiv = document.createElement('div');
+            pageDiv.className = 'page';
+            pageDiv.style.zIndex = totalPages - startNum;
+
+            // 앞면 (홀수 페이지)
+            const frontFace = document.createElement('div');
+            frontFace.className = 'page-face front';
+            const canvasFront = document.createElement('canvas');
+            frontFace.appendChild(canvasFront);
+            const numSpanF = document.createElement('span');
+            numSpanF.className = 'page-number';
+            numSpanF.innerText = startNum;
+            frontFace.appendChild(numSpanF);
+
+            // 뒷면 (짝수 페이지)
+            const backFace = document.createElement('div');
+            backFace.className = 'page-face back';
+            const canvasBack = document.createElement('canvas');
+            backFace.appendChild(canvasBack);
+            const numSpanB = document.createElement('span');
+            numSpanB.className = 'page-number';
+            numSpanB.innerText = startNum + 1 <= totalPages ? startNum + 1 : '';
+            backFace.appendChild(numSpanB);
+
+            pageDiv.appendChild(frontFace);
+            pageDiv.appendChild(backFace);
+            book.appendChild(pageDiv);
+
+            renderPageToCanvas(startNum, canvasFront);
+            if (startNum + 1 <= totalPages) {
+                renderPageToCanvas(startNum + 1, canvasBack);
+            } else {
+                backFace.style.background = "#f0f0f0"; // 마지막 페이지 뒷면 빈 공간
+            }
+
+            // 클릭 이벤트
+            pageDiv.addEventListener('click', (e) => {
+                const rect = pageDiv.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                
+                if (pageDiv.classList.contains('flipped')) {
+                    // 왼쪽 페이지를 눌러서 다시 오른쪽으로 넘길 때
+                    if (x < rect.width) {
+                        pageDiv.classList.remove('flipped');
+                        setTimeout(() => updateBookPosition(), 100);
+                    }
+                } else {
+                    // 오른쪽 페이지를 눌러서 왼쪽으로 넘길 때
+                    pageDiv.classList.add('flipped');
+                    setTimeout(() => updateBookPosition(), 100);
+                }
+            });
+        }
+
+        function updateBookPosition() {
+            const flippedPages = document.querySelectorAll('.page.flipped').length;
+            if (flippedPages > 0) {
+                book.classList.add('opened');
+            } else {
+                book.classList.remove('opened');
+            }
+        }
+
+        window.onload = initBook;
+    </script>
+</body>
+</html>
