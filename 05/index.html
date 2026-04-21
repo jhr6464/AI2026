@@ -59,7 +59,6 @@
             animation: bounce-slow 2s infinite;
         }
 
-        /* 버튼 호버 효과 커스텀 */
         .btn-hover-effect {
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -122,7 +121,6 @@
                         </div>
                     </div>
 
-                    <!-- 포트폴리오 이동 버튼 추가 -->
                     <div class="mt-auto">
                         <a href="../06/index.html" class="btn-hover-effect inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-poppins font-semibold text-white shadow-md transition-all active:scale-95" style="background-color: var(--primary)">
                             <span>PORTFOLIO - RECENT WORK</span>
@@ -151,7 +149,7 @@
 
         <!-- 전공소개 섹션 -->
         <section class="glass-card p-8 md:p-16 overflow-hidden">
-            <div class="flex flex-col lg:flex-row gap-12 mb-12">
+            <div class="flex flex-col lg:flex-row gap-12">
                 <div class="lg:w-1/3 space-y-6">
                     <div class="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-widest" style="background-color: var(--accent2); color: var(--primary)">
                         Major Study
@@ -167,46 +165,32 @@
                     </div>
                 </div>
 
-                <div class="lg:w-2/3 bg-white/50 rounded-[2rem] p-8 border border-white/60">
-                    <div class="space-y-6">
+                <div class="lg:w-2/3 bg-white/50 rounded-[2rem] p-8 border border-white/60 flex flex-col justify-center min-h-[300px]">
+                    <div class="space-y-8">
                         <div>
                             <h3 id="tab-title" class="text-2xl font-bold mb-3" style="color: var(--primary)">디자인 기초</h3>
-                            <p id="tab-desc" class="text-gray-600 leading-relaxed">
+                            <p id="tab-desc" class="text-gray-600 leading-relaxed text-lg">
                                 디자인의 근본 원리를 습득하여 '왜 이 디자인이 좋은지'에 대한 이론적 근거를 배웁니다.
                             </p>
                         </div>
                         
-                        <div id="tab-items" class="grid grid-cols-2 gap-3">
+                        <div id="tab-items" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <!-- 아이템이 자바스크립트로 생성됩니다 -->
-                        </div>
-
-                        <div class="pt-8 grid grid-cols-3 gap-4 border-t border-white/40">
-                            <div class="text-center p-3 rounded-2xl bg-white shadow-sm border border-gray-100">
-                                <div class="flex justify-center mb-1" style="color: var(--secondary)"><i class="fa-solid fa-book-open"></i></div>
-                                <span class="text-xs font-bold text-gray-400 uppercase">이해</span>
-                            </div>
-                            <div class="text-center p-3 rounded-2xl bg-white shadow-sm border border-gray-100">
-                                <div class="flex justify-center mb-1" style="color: var(--secondary)"><i class="fa-solid fa-comment-dots"></i></div>
-                                <span class="text-xs font-bold text-gray-400 uppercase">설득</span>
-                            </div>
-                            <div class="text-center p-3 rounded-2xl bg-white shadow-sm border border-gray-100">
-                                <div class="flex justify-center mb-1" style="color: var(--secondary)"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-                                <span class="text-xs font-bold text-gray-400 uppercase">기억</span>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- 하단 인포그래픽 및 가치 정리 파트 -->
-            <div class="mt-12 pt-12 border-t border-gray-100 space-y-12">
+            <div class="mt-20 pt-12 border-t border-gray-100 space-y-12">
                 <div class="flex flex-col items-center space-y-6">
                     <div class="text-center space-y-2">
                         <h3 class="text-xl font-bold" style="color: var(--primary)">Design Fields</h3>
                         <p class="text-sm text-gray-400">브랜딩, UI/UX, 타이포그래피 등 정보 전달의 다채로운 세부 분야</p>
                     </div>
-                    <div class="w-full h-48 md:h-64 rounded-[2rem] bg-gradient-to-r from-[#eef2ff] to-[#fce7f3] flex items-center justify-center border border-white/60">
-                         <span class="text-gray-400 font-medium">Design Fields Infographic Area</span>
+                    <div class="w-full overflow-hidden rounded-[2rem] bg-white/50 border border-white/60 shadow-inner">
+                         <img src="designinfographic.png" alt="[시각디자인 분야 인포그래픽]" class="w-full h-auto object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                         <div class="hidden w-full h-48 items-center justify-center bg-gray-100 text-gray-400 italic">이미지를 불러올 수 없습니다 (designinfographic.png)</div>
                     </div>
                 </div>
 
@@ -292,6 +276,14 @@
                         <p class="text-sm text-gray-500 leading-relaxed">AI 시안 중 최선의 결과물을 선택하고 다듬는 최종 책임자입니다.</p>
                     </div>
                 </div>
+
+                <!-- Future of Design 카드 하단 인포그래픽 추가 -->
+                <div class="mt-8">
+                    <div class="w-full overflow-hidden rounded-[2rem] bg-white/50 border border-white/60 shadow-inner">
+                        <img src="aidatainfographic.png" alt="[AI 데이터 디자인 인포그래픽]" class="w-full h-auto object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                        <div class="hidden w-full h-48 items-center justify-center bg-gray-100 text-gray-400 italic">이미지를 불러올 수 없습니다 (aidatainfographic.png)</div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -312,18 +304,18 @@
         const majorData = {
             foundation: {
                 title: "디자인 기초",
-                items: ["색채", "타이포그래피", "레이아웃", "기본 원리"],
-                desc: "디자인의 근본 원리를 습득하여 '왜 이 디자인이 좋은지'에 대한 이론적 근거를 배웁니다."
+                items: ["색채 (Color)", "타이포그래피 (Typography)", "레이아웃 (Layout)", "기본 원리 (Principles)"],
+                desc: "디자인의 가장 근본이 되는 원리를 습득하는 단계로, '왜 이 디자인이 보기 편하고 좋은지'에 대한 이론적 근거를 배웁니다."
             },
             graphic: {
                 title: "그래픽 디자인",
                 items: ["브랜딩 및 로고", "포스터 및 편집", "패키지 디자인"],
-                desc: "일상에서 접하는 오프라인 및 브랜드 디자인 결과물을 제작하는 핵심 영역입니다."
+                desc: "일상에서 접하는 대부분의 오프라인 및 브랜드 디자인 결과물을 제작하는 시각디자인의 꽃인 영역입니다."
             },
             digital: {
                 title: "디지털 & 인터랙션",
                 items: ["UI/UX 디자인", "모션 그래픽", "영상 디자인"],
-                desc: "화면 속에서 사용자와 반응하고 움직이는 현대적 매체를 탐구합니다."
+                desc: "스마트 기기 화면 속에서 사용자와 반응하고 움직이는 현대적인 디자인 매체와 경험을 탐구합니다."
             }
         };
 
@@ -335,7 +327,7 @@
             
             Object.keys(majorData).forEach(key => {
                 const btn = document.createElement('button');
-                btn.className = `tab-btn text-left px-5 py-3 rounded-2xl flex items-center justify-between ${activeTab === key ? 'active' : ''}`;
+                btn.className = `tab-btn text-left px-5 py-4 rounded-2xl flex items-center justify-between ${activeTab === key ? 'active' : ''}`;
                 btn.style.color = 'var(--primary)';
                 btn.innerHTML = `
                     <span class="font-bold">${majorData[key].title}</span>
@@ -357,10 +349,10 @@
             itemsContainer.innerHTML = '';
             data.items.forEach(item => {
                 const itemDiv = document.createElement('div');
-                itemDiv.className = "px-4 py-3 rounded-xl bg-white/80 border border-gray-50 flex items-center gap-3 shadow-sm";
+                itemDiv.className = "px-6 py-4 rounded-2xl bg-white/80 border border-gray-50 flex items-center gap-4 shadow-sm transition-all hover:bg-white";
                 itemDiv.innerHTML = `
-                    <div class="w-1.5 h-1.5 rounded-full" style="background-color: var(--secondary)"></div>
-                    <span class="text-sm font-medium text-gray-700">${item}</span>
+                    <div class="w-2 h-2 rounded-full" style="background-color: var(--secondary)"></div>
+                    <span class="font-medium text-gray-700">${item}</span>
                 `;
                 itemsContainer.appendChild(itemDiv);
             });
