@@ -58,6 +58,15 @@
         .animate-bounce-slow {
             animation: bounce-slow 2s infinite;
         }
+
+        /* 버튼 호버 효과 커스텀 */
+        .btn-hover-effect {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-hover-effect:hover {
+            letter-spacing: 1px;
+            box-shadow: 0 10px 15px -3px rgba(134, 98, 110, 0.2);
+        }
     </style>
 </head>
 <body class="pb-20">
@@ -69,7 +78,7 @@
         <div class="z-10 text-center space-y-8 max-w-4xl">
             <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full mb-4 text-sm font-semibold tracking-wider bg-white shadow-sm" style="color: var(--primary)">
                 <i class="fa-solid fa-sparkles"></i>
-                PORTFOLIO 2024
+                PORTFOLIO 2026
             </div>
             <h1 class="text-4xl md:text-6xl font-bold tracking-tight leading-tight" style="color: var(--primary)">
                 Connecting my story,<br/>
@@ -89,8 +98,8 @@
             <div class="absolute top-0 right-0 w-64 h-64 opacity-10 pointer-events-none" style="background: radial-gradient(circle, var(--secondary) 0%, transparent 70%)"></div>
             
             <div class="relative z-10 flex flex-col md:flex-row gap-12 items-center md:items-start">
-                <div class="w-full md:w-1/2 space-y-6">
-                    <div class="inline-block px-3 py-1 rounded-md text-xs font-bold uppercase tracking-widest" style="background-color: var(--accent1); color: var(--primary)">
+                <div class="w-full md:w-1/2 space-y-6 flex flex-col h-full">
+                    <div class="inline-block w-fit px-3 py-1 rounded-md text-xs font-bold uppercase tracking-widest" style="background-color: var(--accent1); color: var(--primary)">
                         About Me
                     </div>
                     <h2 class="text-4xl font-bold" style="color: var(--primary)">장하리입니다.</h2>
@@ -102,7 +111,7 @@
                         는 생각으로 현재 부산대학교에서 시각디자인을 전공하며 디자이너의 꿈을 키워가고 있습니다.
                     </p>
                     
-                    <div class="grid grid-cols-2 gap-4 pt-4">
+                    <div class="grid grid-cols-2 gap-4 pt-4 mb-8">
                         <div class="space-y-1">
                             <span class="text-xs uppercase text-gray-400 font-bold">Student ID</span>
                             <p class="font-medium font-poppins text-gray-700">202466334</p>
@@ -111,6 +120,14 @@
                             <span class="text-xs uppercase text-gray-400 font-bold">MBTI</span>
                             <p class="font-medium text-pink-400 font-poppins">#INTP</p>
                         </div>
+                    </div>
+
+                    <!-- 포트폴리오 이동 버튼 추가 -->
+                    <div class="mt-auto">
+                        <a href="../06/index.html" class="btn-hover-effect inline-flex items-center gap-3 px-8 py-4 rounded-2xl font-poppins font-semibold text-white shadow-md transition-all active:scale-95" style="background-color: var(--primary)">
+                            <span>PORTFOLIO - RECENT WORK</span>
+                            <i class="fa-solid fa-arrow-right-long text-sm"></i>
+                        </a>
                     </div>
                 </div>
 
@@ -188,12 +205,12 @@
                         <h3 class="text-xl font-bold" style="color: var(--primary)">Design Fields</h3>
                         <p class="text-sm text-gray-400">브랜딩, UI/UX, 타이포그래피 등 정보 전달의 다채로운 세부 분야</p>
                     </div>
-                    <img src="designinfographic.png" alt="디자인 세부 분야 인포그래픽" class="w-full h-auto rounded-[2rem] shadow-lg border border-white/60" onerror="this.src='https://placehold.co/1200x400/e2e4f6/86626e?text=Design+Fields+Infographic'">
+                    <div class="w-full h-48 md:h-64 rounded-[2rem] bg-gradient-to-r from-[#eef2ff] to-[#fce7f3] flex items-center justify-center border border-white/60">
+                         <span class="text-gray-400 font-medium">Design Fields Infographic Area</span>
+                    </div>
                 </div>
 
-                <!-- 사회적/미래적 가치 상세 -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                    <!-- 사회에서의 의미 -->
                     <div class="space-y-6 p-8 rounded-[2rem] bg-white/40 border border-white shadow-sm">
                         <div class="flex items-center gap-3">
                             <div class="p-2 rounded-xl bg-blue-100 text-blue-500"><i class="fa-solid fa-globe"></i></div>
@@ -204,27 +221,19 @@
                                 <span class="text-blue-400 font-bold font-poppins">1.</span>
                                 <div class="space-y-1">
                                     <p class="font-bold text-gray-800">정보 전달의 핵심 도구</p>
-                                    <p class="text-sm text-gray-600">복잡한 내용을 한눈에 정리하여 누구나 쉽게 이해하게 돕고 정보 격차를 줄입니다.</p>
+                                    <p class="text-sm text-gray-600">복잡한 내용을 한눈에 정리하여 정보 격차를 줄입니다.</p>
                                 </div>
                             </li>
                             <li class="flex gap-4">
                                 <span class="text-blue-400 font-bold font-poppins">2.</span>
                                 <div class="space-y-1">
                                     <p class="font-bold text-gray-800">사회적 메시지를 전달하는 힘</p>
-                                    <p class="text-sm text-gray-600">캠페인과 공익광고를 통해 사람의 행동과 생각을 바꾸는 사회 변화의 매개체가 됩니다.</p>
-                                </div>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-blue-400 font-bold font-poppins">3.</span>
-                                <div class="space-y-1">
-                                    <p class="font-bold text-gray-800">브랜드와 경제를 움직이는 요소</p>
-                                    <p class="text-sm text-gray-600">신뢰감 있는 이미지 형성을 통해 경제적 가치를 창출하고 시장 경쟁력을 확보합니다.</p>
+                                    <p class="text-sm text-gray-600">행동과 생각을 바꾸는 사회 변화의 매개체가 됩니다.</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
 
-                    <!-- 미래에서의 의미 -->
                     <div class="space-y-6 p-8 rounded-[2rem] bg-white/40 border border-white shadow-sm">
                         <div class="flex items-center gap-3">
                             <div class="p-2 rounded-xl bg-pink-100 text-pink-500"><i class="fa-solid fa-arrow-trend-up"></i></div>
@@ -235,31 +244,18 @@
                                 <span class="text-pink-400 font-bold font-poppins">1.</span>
                                 <div class="space-y-1">
                                     <p class="font-bold text-gray-800">AI 시대일수록 더 중요해짐</p>
-                                    <p class="text-sm text-gray-600">“무엇을 왜 전달할지” 결정하고 맥락과 감정을 설계하는 기획자로서 진화합니다.</p>
+                                    <p class="text-sm text-gray-600">맥락과 감정을 설계하는 기획자로서 진화합니다.</p>
                                 </div>
                             </li>
                             <li class="flex gap-4">
                                 <span class="text-pink-400 font-bold font-poppins">2.</span>
                                 <div class="space-y-1">
-                                    <p class="font-bold text-gray-800">디지털 환경의 중심 역할</p>
-                                    <p class="text-sm text-gray-600">앱/웹부터 메타버스까지 모든 사용자 경험(UX)의 핵심적인 축을 담당합니다.</p>
-                                </div>
-                            </li>
-                            <li class="flex gap-4">
-                                <span class="text-pink-400 font-bold font-poppins">3.</span>
-                                <div class="space-y-1">
                                     <p class="font-bold text-gray-800">인간 중심 설계 (HCD)</p>
-                                    <p class="text-sm text-gray-600">접근성과 다양성을 고려하여 기술보다 사람을 먼저 생각하고 배려하는 디자인을 합니다.</p>
+                                    <p class="text-sm text-gray-600">기술보다 사람을 먼저 생각하는 디자인을 합니다.</p>
                                 </div>
                             </li>
                         </ul>
                     </div>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm text-center">
-                    <p class="text-lg font-medium text-gray-700">
-                        👉 시각디자인은 <span class="font-bold text-pink-500 underline decoration-pink-200 underline-offset-4">‘보이게 만드는 기술’을 넘어서</span> 사회와 사람의 이해, 행동, 경험을 설계하는 전공이다.
-                    </p>
                 </div>
             </div>
         </section>
@@ -287,29 +283,13 @@
                     <div class="p-8 rounded-[2rem] bg-white border border-gray-50 shadow-sm space-y-4 flex flex-col items-start transition-all hover:-translate-y-2">
                         <div class="p-3 rounded-2xl bg-blue-50 text-blue-400"><i class="fa-solid fa-bolt text-xl"></i></div>
                         <h4 class="font-bold text-lg">맥락적 이해</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">사용자의 감정과 숨은 의도를 파악하여 디자인에 의미를 부여하는 인간 고유 영역입니다.</p>
+                        <p class="text-sm text-gray-500 leading-relaxed">사용자의 감정을 파악하여 의미를 부여하는 인간 고유 영역입니다.</p>
                     </div>
 
                     <div class="p-8 rounded-[2rem] bg-white border border-gray-50 shadow-sm space-y-4 flex flex-col items-start transition-all hover:-translate-y-2">
                         <div class="p-3 rounded-2xl bg-purple-50 text-purple-400"><i class="fa-solid fa-sparkles text-xl"></i></div>
                         <h4 class="font-bold text-lg">큐레이션 및 결정</h4>
-                        <p class="text-sm text-gray-500 leading-relaxed">AI 시안 중 최선의 결과물을 선택하고 정교하게 다듬는 최종 책임자입니다.</p>
-                    </div>
-                </div>
-
-                <div class="mt-8 p-8 rounded-[2.5rem] bg-gradient-to-br from-[#faf5ff] to-white border border-white shadow-inner flex flex-col lg:flex-row items-center gap-10">
-                    <div class="lg:w-1/3 space-y-4">
-                        <div class="flex items-center gap-2 font-bold" style="color: var(--primary)">
-                            <i class="fa-solid fa-clock text-pink-300"></i>
-                            Efficiency Boost
-                        </div>
-                        <h3 class="text-2xl font-bold" style="color: var(--primary)">혁신적인 시간 단축</h3>
-                        <p class="text-sm text-gray-500 leading-relaxed">
-                            AI 도입을 통해 단순 반복 작업을 자동화함으로써, 디자이너는 창의적인 아이디어 구상에 훨씬 더 많은 시간을 투자할 수 있게 되었습니다.
-                        </p>
-                    </div>
-                    <div class="lg:w-2/3 w-full">
-                        <img src="aidatainfographic.png" alt="AI 도입에 따른 업무 시간 단축 인포그래픽" class="w-full h-auto rounded-3xl shadow-md border border-white" onerror="this.src='https://placehold.co/1100x300/f3f4f6/9ca3af?text=AI+Work+Efficiency+Infographic'">
+                        <p class="text-sm text-gray-500 leading-relaxed">AI 시안 중 최선의 결과물을 선택하고 다듬는 최종 책임자입니다.</p>
                     </div>
                 </div>
             </div>
@@ -320,7 +300,7 @@
     <!-- Footer -->
     <footer class="mt-32 py-12 px-6 text-center opacity-40">
         <p class="text-xs font-medium tracking-widest font-poppins" style="color: var(--primary)">
-            © 2024 JANG HA RI. VISUAL COMMUNICATION DESIGN.
+            © 2026 JANG HA RI. VISUAL COMMUNICATION DESIGN.
         </p>
     </footer>
 
@@ -329,7 +309,6 @@
     <div class="fixed -bottom-20 -right-20 w-[30vw] h-[30vw] rounded-full blur-[100px] opacity-10 -z-10" style="background-color: var(--secondary)"></div>
 
     <script>
-        // 데이터 정의
         const majorData = {
             foundation: {
                 title: "디자인 기초",
@@ -350,7 +329,6 @@
 
         let activeTab = 'foundation';
 
-        // 탭 버튼 생성
         function renderTabButtons() {
             const container = document.getElementById('tab-container');
             container.innerHTML = '';
@@ -368,12 +346,10 @@
             });
         }
 
-        // 탭 전환 로직
         function switchTab(key) {
             activeTab = key;
             const data = majorData[key];
             
-            // UI 업데이트
             document.getElementById('tab-title').textContent = data.title;
             document.getElementById('tab-desc').textContent = data.desc;
             
@@ -392,13 +368,12 @@
             renderTabButtons();
         }
 
-        // 패럴랙스 효과 (Hero 배경)
         window.addEventListener('scroll', () => {
             const scrollPos = window.scrollY;
-            document.getElementById('hero-bg').style.transform = `translateY(${scrollPos * 0.1}px)`;
+            const heroBg = document.getElementById('hero-bg');
+            if(heroBg) heroBg.style.transform = `translateY(${scrollPos * 0.1}px)`;
         });
 
-        // 초기 실행
         window.onload = () => {
             switchTab('foundation');
         };
