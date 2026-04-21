@@ -66,12 +66,55 @@
             letter-spacing: 1px;
             box-shadow: 0 10px 15px -3px rgba(134, 98, 110, 0.2);
         }
+
+        /* BGM 애니메이션 */
+        .bar {
+            width: 3px;
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 2px;
+            transition: height 0.2s ease;
+        }
+        .playing .bar:nth-child(1) { animation: music-bar 0.8s infinite 0.1s; }
+        .playing .bar:nth-child(2) { animation: music-bar 0.8s infinite 0.3s; }
+        .playing .bar:nth-child(3) { animation: music-bar 0.8s infinite 0.5s; }
+        .playing .bar:nth-child(4) { animation: music-bar 0.8s infinite 0.2s; }
+
+        @keyframes music-bar {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
     </style>
 </head>
 <body class="pb-20">
 
+    <!-- Top Navigation Bar -->
+    <nav class="fixed top-0 left-0 right-0 z-50 p-6 flex items-center justify-between pointer-events-none">
+        <div class="flex items-center gap-4 pointer-events-auto">
+            <!-- Home Button -->
+            <a href="index.html" class="glass-card flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-bold transition-all active:scale-95" style="color: var(--primary); border-radius: 9999px;">
+                <i class="fa-solid fa-house"></i>
+                <span class="font-poppins uppercase tracking-wider">Home</span>
+            </a>
+
+            <!-- BGM Controller -->
+            <div id="bgm-player" class="glass-card flex items-center gap-3 px-5 py-2.5 rounded-full cursor-pointer transition-all active:scale-95" style="border-radius: 9999px;">
+                <div class="flex items-end gap-[2px] h-4 w-5 overflow-hidden" id="music-animation">
+                    <div class="bar h-1"></div>
+                    <div class="bar h-2"></div>
+                    <div class="bar h-1"></div>
+                    <div class="bar h-3"></div>
+                </div>
+                <span class="text-xs font-bold font-poppins text-gray-500 uppercase tracking-tighter" id="music-status">Music Off</span>
+                <audio id="main-audio" loop>
+                    <source src="waterdrop morning.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </div>
+    </nav>
+
     <!-- Hero Section -->
-    <section class="relative h-[60vh] flex flex-col items-center justify-center p-6 overflow-hidden">
+    <section class="relative h-[60vh] flex flex-col items-center justify-center p-6 overflow-hidden pt-24">
         <div id="hero-bg" class="absolute inset-0 z-0 opacity-40 hero-gradient"></div>
         
         <div class="z-10 text-center space-y-8 max-w-4xl">
@@ -359,6 +402,28 @@
 
             renderTabButtons();
         }
+
+        // BGM Player Logic
+        const bgmPlayer = document.getElementById('bgm-player');
+        const audio = document.getElementById('main-audio');
+        const musicAnim = document.getElementById('music-animation');
+        const musicStatus = document.getElementById('music-status');
+        let isPlaying = false;
+
+        bgmPlayer.addEventListener('click', () => {
+            if (isPlaying) {
+                audio.pause();
+                musicAnim.classList.remove('playing');
+                musicStatus.textContent = 'Music Off';
+            } else {
+                audio.play().catch(e => {
+                    console.log("Autoplay blocked or file not found.");
+                });
+                musicAnim.classList.add('playing');
+                musicStatus.textContent = 'Music On';
+            }
+            isPlaying = !isPlaying;
+        });
 
         window.addEventListener('scroll', () => {
             const scrollPos = window.scrollY;
