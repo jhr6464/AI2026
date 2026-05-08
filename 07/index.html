@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도로 위 안전 위기: 고령 운전자 사고 20% 돌파</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #defffc;
+            --color-secondary: #e2e4f6;
+            --color-accent1: #e7c8dd;
+            --color-accent2: #d8afc1;
+            --color-dark: #86626e;
+            --color-bg: #fff5fc;
+        }
+        body {
+            background-color: var(--color-bg);
+            color: var(--color-dark);
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+        }
+        .card {
+            background-color: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 25px -5px rgba(134, 98, 110, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .accent-border {
+            border-left: 5px solid var(--color-accent2);
+        }
+        .stat-value {
+            color: var(--color-dark);
+            font-weight: 800;
+        }
+        canvas {
+            max-height: 400px;
+        }
+        .home-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s;
+            font-weight: 700;
+            color: var(--color-dark);
+        }
+        .home-btn:hover {
+            background-color: rgba(134, 98, 110, 0.1);
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
+        <a href="../index.html" class="home-btn">
+            <i class="fas fa-home text-xl"></i>
+            <span class="tracking-tight">HOME</span>
+        </a>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section px-6 py-20 text-center">
+        <div class="max-w-4xl mx-auto">
+            <span class="inline-block px-4 py-1 rounded-full text-sm font-bold mb-4" style="background-color: var(--color-accent2); color: white;">긴급 진단</span>
+            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
+                전체 사고는 줄지만...<br>
+                <span style="color: var(--color-dark)">고령 운전자 사고 ‘나홀로 폭증’</span>
+            </h1>
+            <p class="text-lg md:text-xl opacity-80 mb-10">
+                고령자 유발 사고 비중 14.8%에서 21.6%로 가파른 상승<br>
+                전체 교통사고는 감소 추세나 고령층 사고는 5년새 36% 증가
+            </p>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 -mt-12">
+        <!-- Main Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div class="card p-8 text-center">
+                <div class="text-sm opacity-60 mb-2">2024 고령 사고 비중</div>
+                <div class="text-4xl stat-value">21.58%</div>
+                <div class="mt-4 text-xs text-red-500">▲ 2020년 대비 6.76%p 증가</div>
+            </div>
+            <div class="card p-8 text-center" style="background-color: var(--color-accent1);">
+                <div class="text-sm opacity-60 mb-2">고령 운전자 사고 수</div>
+                <div class="text-4xl stat-value">42,369건</div>
+                <div class="mt-4 text-xs">5년 전 대비 약 1.1만 건 증가</div>
+            </div>
+            <div class="card p-8 text-center">
+                <div class="text-sm opacity-60 mb-2">전체 사고 추이</div>
+                <div class="text-4xl stat-value">하향 안정화</div>
+                <div class="mt-4 text-xs text-blue-400">교통안전 전반적 개선</div>
+            </div>
+        </div>
+
+        <!-- Article Content -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
+            <div class="lg:col-span-2 space-y-8 text-lg leading-relaxed">
+                <section>
+                    <h2 class="text-2xl font-bold mb-4 accent-border pl-4">전체 사고는 줄어드는데… 고령층만 ‘역주행’</h2>
+                    <p class="mb-4">
+                        최근 5년간의 교통사고 데이터를 분석한 결과, 대한민국 도로 안전의 새로운 사각지대가 드러났습니다. 2020년 약 21만 건에 달했던 전체 교통사고 건수는 2024년 19만 6천 건 수준으로 감소하며 점진적인 개선세를 보이고 있습니다.
+                    </p>
+                    <div class="card p-6 md:p-8 my-8">
+                        <h3 class="text-xl font-bold mb-6 text-center">교통사고 발생 건수 추이 비교 (전체 vs 고령)</h3>
+                        <canvas id="comparisonChart"></canvas>
+                        <p class="mt-4 text-xs text-center opacity-50">* 막대: 전체 사고 수(좌측 축), 선: 고령 운전자 사고 수(우측 축)</p>
+                    </div>
+                    <p>
+                        하지만 65세 이상 고령 운전자가 유발한 사고는 정반대의 길을 걷고 있습니다. 2020년 <strong>31,072건</strong>에서 2024년 <strong>42,369건</strong>으로 36.3% 급증했습니다. 전체 사고 중 고령층이 차지하는 비중 또한 14.8%에서 21.6%로 늘어나며, 이제 도로 위 사고 5건 중 1건은 고령 운전자에 의해 발생하고 있습니다.
+                    </p>
+                </section>
+
+                <section>
+                    <h2 class="text-2xl font-bold mb-4 accent-border pl-4">고령자 사고, 단순한 숫자의 문제가 아니다</h2>
+                    <p>
+                        전문가들은 이러한 현상이 인구 고령화에 따른 자연스러운 현상이지만, 동시에 예방 가능한 '인재'가 포함되어 있다고 지적합니다. 신체 능력 저하에 따른 돌발 상황 대응 미숙이 주요 원인으로 꼽히는 만큼, 제도적 보완책이 시급합니다.
+                    </p>
+                </section>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="space-y-6">
+                <div class="card p-6" style="background-color: var(--color-secondary);">
+                    <h3 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-exclamation-triangle mr-2" style="color: var(--color-accent2)"></i>
+                        사고 데이터 요약
+                    </h3>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex justify-between items-center border-b pb-2" style="border-color: var(--color-accent1)">
+                            <span>전체 사고 감소율</span>
+                            <span class="font-bold">-6.35%</span>
+                        </div>
+                        <div class="flex justify-between items-center border-b pb-2" style="border-color: var(--color-accent1)">
+                            <span>고령 사고 증가율</span>
+                            <span class="font-bold text-red-500">+36.35%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-6" style="background-color: var(--color-primary);">
+                    <h3 class="font-bold mb-4 flex items-center">
+                        <i class="fas fa-user-shield mr-2" style="color: var(--color-dark)"></i>
+                        긴급 안전 대책
+                    </h3>
+                    <ul class="space-y-2 text-xs opacity-80">
+                        <li>• 조건부 운전면허 제도 도입 검토</li>
+                        <li>• 페달 오조작 방지 장치 지원</li>
+                        <li>• 고령자 특화 적성검사 강화</li>
+                        <li>• 야간·고속도로 주행 제한 논의</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-12 text-center opacity-60 text-sm" style="background-color: var(--color-secondary)">
+        <p>© 2024 Road Safety Data Report. All rights reserved.</p>
+        <p class="mt-2">제공 데이터: 고령자 유발 교통사고 통계 기반</p>
+    </footer>
+
+    <script>
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        
+        const colorTotal = '#e2e4f6'; 
+        const colorElderly = '#86626e'; 
+        const colorAccent = '#d8afc1'; 
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['2020년', '2021년', '2022년', '2023년', '2024년'],
+                datasets: [
+                    {
+                        label: '전체 사고 수',
+                        data: [209654, 203130, 196836, 198296, 196349],
+                        backgroundColor: colorTotal,
+                        borderRadius: 8,
+                        yAxisID: 'y',
+                        order: 2
+                    },
+                    {
+                        label: '고령 운전자 사고 수',
+                        data: [31072, 31841, 34652, 39614, 42369],
+                        type: 'line',
+                        borderColor: colorElderly,
+                        backgroundColor: colorElderly,
+                        borderWidth: 4,
+                        pointBackgroundColor: colorAccent,
+                        pointRadius: 5,
+                        fill: false,
+                        yAxisID: 'y1',
+                        order: 1,
+                        tension: 0.3
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: { family: 'Pretendard' }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: '전체 사고 (건)' },
+                        grid: { drawOnChartArea: false }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: '고령 사고 (건)' },
+                        grid: { color: '#f0f0f0' }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
