@@ -3,180 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도로 위 안전 위기: 고령 운전자 사고 20% 돌파</title>
+    <title>교통사고 데이터 인사이트 리포트</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
         :root {
-            --color-primary: #defffc;
-            --color-secondary: #e2e4f6;
-            --color-accent1: #e7c8dd;
-            --color-accent2: #d8afc1;
-            --color-dark: #86626e;
-            --color-bg: #fff5fc;
+            --color-1: #defffc;
+            --color-2: #e2e4f6;
+            --color-3: #e7c8dd;
+            --color-4: #d8afc1;
+            --color-5: #86626e;
+            --color-6: #fff5fc;
         }
+
         body {
-            background-color: var(--color-bg);
-            color: var(--color-dark);
+            background-color: var(--color-6);
+            color: var(--color-5);
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+            scroll-behavior: smooth;
         }
-        .hero-section {
-            background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+
+        .hero-gradient {
+            background: linear-gradient(135deg, var(--color-1) 0%, var(--color-2) 100%);
         }
+
         .card {
             background-color: white;
             border-radius: 1.5rem;
-            box-shadow: 0 10px 25px -5px rgba(134, 98, 110, 0.1);
-            transition: transform 0.3s ease;
+            box-shadow: 0 10px 30px -5px rgba(134, 98, 110, 0.08);
+            border: 1px solid rgba(134, 98, 110, 0.05);
         }
-        .card:hover {
-            transform: translateY(-5px);
-        }
+
         .accent-border {
-            border-left: 5px solid var(--color-accent2);
+            border-left: 6px solid var(--color-4);
         }
-        .stat-value {
-            color: var(--color-dark);
-            font-weight: 800;
-        }
-        canvas {
-            max-height: 400px;
-        }
+
         .home-btn {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 0.75rem;
-            transition: background-color 0.2s;
+            gap: 0.6rem;
+            padding: 0.6rem 1.2rem;
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
             font-weight: 700;
-            color: var(--color-dark);
+            transition: all 0.3s ease;
+            color: var(--color-5);
         }
+
         .home-btn:hover {
-            background-color: rgba(134, 98, 110, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+            background-color: var(--color-2);
+        }
+
+        .section-tag {
+            background-color: var(--color-4);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(to right, transparent, var(--color-3), transparent);
+            margin: 5rem 0;
         }
     </style>
 </head>
 <body class="antialiased">
 
     <!-- Navigation -->
-    <nav class="p-6 flex justify-between items-center max-w-7xl mx-auto">
-        <a href="../index.html" class="home-btn">
-            <i class="fas fa-home text-xl"></i>
-            <span class="tracking-tight">HOME</span>
-        </a>
+    <nav class="fixed top-0 left-0 right-0 z-50 p-6">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="../index.html" class="home-btn">
+                <i class="fas fa-home"></i>
+                <span>HOME</span>
+            </a>
+            <!-- Right side is intentionally empty as requested -->
+            <div></div>
+        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="hero-section px-6 py-20 text-center">
-        <div class="max-w-4xl mx-auto">
-            <span class="inline-block px-4 py-1 rounded-full text-sm font-bold mb-4" style="background-color: var(--color-accent2); color: white;">긴급 진단</span>
-            <h1 class="text-4xl md:text-6xl font-black mb-6 leading-tight">
-                전체 사고는 줄지만...<br>
-                <span style="color: var(--color-dark)">고령 운전자 사고 ‘나홀로 폭증’</span>
+    <!-- Header Section -->
+    <header class="hero-gradient pt-40 pb-24 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+            <h1 class="text-4xl md:text-6xl font-black mb-8 leading-tight">
+                데이터로 읽는 도로 위 <br>
+                <span class="text-white" style="text-shadow: 2px 2px 0px var(--color-5)">안전 지형도</span>
             </h1>
-            <p class="text-lg md:text-xl opacity-80 mb-10">
-                고령자 유발 사고 비중 14.8%에서 21.6%로 가파른 상승<br>
-                전체 교통사고는 감소 추세나 고령층 사고는 5년새 36% 증가
+            <p class="text-lg md:text-xl font-medium opacity-80 leading-relaxed">
+                고령화에 따른 사고 급증과 기상 변화가 가져온 <br>
+                새로운 교통사고 패턴을 데이터 기반으로 심층 분석합니다.
             </p>
         </div>
     </header>
 
-    <main class="max-w-6xl mx-auto px-6 -mt-12">
-        <!-- Main Stats Cards -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
-            <div class="card p-8 text-center">
-                <div class="text-sm opacity-60 mb-2">2024 고령 사고 비중</div>
-                <div class="text-4xl stat-value">21.58%</div>
-                <div class="mt-4 text-xs text-red-500">▲ 2020년 대비 6.76%p 증가</div>
-            </div>
-            <div class="card p-8 text-center" style="background-color: var(--color-accent1);">
-                <div class="text-sm opacity-60 mb-2">고령 운전자 사고 수</div>
-                <div class="text-4xl stat-value">42,369건</div>
-                <div class="mt-4 text-xs">5년 전 대비 약 1.1만 건 증가</div>
-            </div>
-            <div class="card p-8 text-center">
-                <div class="text-sm opacity-60 mb-2">전체 사고 추이</div>
-                <div class="text-4xl stat-value">하향 안정화</div>
-                <div class="mt-4 text-xs text-blue-400">교통안전 전반적 개선</div>
-            </div>
-        </div>
-
-        <!-- Article Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 mb-20">
-            <div class="lg:col-span-2 space-y-8 text-lg leading-relaxed">
-                <section>
-                    <h2 class="text-2xl font-bold mb-4 accent-border pl-4">전체 사고는 줄어드는데… 고령층만 ‘역주행’</h2>
-                    <p class="mb-4">
-                        최근 5년간의 교통사고 데이터를 분석한 결과, 대한민국 도로 안전의 새로운 사각지대가 드러났습니다. 2020년 약 21만 건에 달했던 전체 교통사고 건수는 2024년 19만 6천 건 수준으로 감소하며 점진적인 개선세를 보이고 있습니다.
-                    </p>
-                    <div class="card p-6 md:p-8 my-8">
-                        <h3 class="text-xl font-bold mb-6 text-center">교통사고 발생 건수 추이 비교 (전체 vs 고령)</h3>
-                        <canvas id="comparisonChart"></canvas>
-                        <p class="mt-4 text-xs text-center opacity-50">* 막대: 전체 사고 수(좌측 축), 선: 고령 운전자 사고 수(우측 축)</p>
+    <!-- Main Content -->
+    <main class="max-w-6xl mx-auto px-6 -mt-10 pb-20">
+        
+        <!-- SECTION 1: 고령 운전자 사고 분석 -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-10 mb-20">
+            <div class="lg:col-span-2">
+                <div class="card p-8 md:p-12 mb-8">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="section-tag">고령화 이슈</span>
+                        <h2 class="text-2xl md:text-3xl font-black">전체 사고는 줄지만, 고령 사고는 '역주행'</h2>
                     </div>
-                    <p>
-                        하지만 65세 이상 고령 운전자가 유발한 사고는 정반대의 길을 걷고 있습니다. 2020년 <strong>31,072건</strong>에서 2024년 <strong>42,369건</strong>으로 36.3% 급증했습니다. 전체 사고 중 고령층이 차지하는 비중 또한 14.8%에서 21.6%로 늘어나며, 이제 도로 위 사고 5건 중 1건은 고령 운전자에 의해 발생하고 있습니다.
-                    </p>
-                </section>
+                    
+                    <div class="prose prose-lg text-gray-700 leading-relaxed mb-10">
+                        <p class="accent-border pl-5 mb-6">
+                            지난 5년간 대한민국 도로는 안전해지고 있었을까요? <br>
+                            전체 사고 건수는 감소 추세지만, 고령 운전자 사고는 나홀로 폭증하고 있습니다.
+                        </p>
+                        <p class="mb-4">
+                            2020년부터 2024년까지의 데이터를 분석한 결과, 전체 사고 건수는 약 6.35% 감소하며 안정화되고 있습니다. 그러나 65세 이상 고령 운전자가 유발한 사고는 같은 기간 <strong>31,072건에서 42,369건으로 36.3% 폭증</strong>했습니다.
+                        </p>
+                    </div>
 
-                <section>
-                    <h2 class="text-2xl font-bold mb-4 accent-border pl-4">고령자 사고, 단순한 숫자의 문제가 아니다</h2>
-                    <p>
-                        전문가들은 이러한 현상이 인구 고령화에 따른 자연스러운 현상이지만, 동시에 예방 가능한 '인재'가 포함되어 있다고 지적합니다. 신체 능력 저하에 따른 돌발 상황 대응 미숙이 주요 원인으로 꼽히는 만큼, 제도적 보완책이 시급합니다.
-                    </p>
-                </section>
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-dashed border-gray-200">
+                        <h3 class="text-center font-bold mb-4 text-sm uppercase tracking-widest opacity-60">전체 사고 대비 고령 사고 발생 추이</h3>
+                        <canvas id="elderlyAccidentChart"></canvas>
+                    </div>
+                </div>
             </div>
 
-            <!-- Sidebar -->
             <div class="space-y-6">
-                <div class="card p-6" style="background-color: var(--color-secondary);">
-                    <h3 class="font-bold mb-4 flex items-center">
-                        <i class="fas fa-exclamation-triangle mr-2" style="color: var(--color-accent2)"></i>
-                        사고 데이터 요약
+                <div class="card p-8" style="background-color: var(--color-3);">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-chart-line mr-2"></i> 핵심 지표
                     </h3>
-                    <div class="space-y-4 text-sm">
-                        <div class="flex justify-between items-center border-b pb-2" style="border-color: var(--color-accent1)">
-                            <span>전체 사고 감소율</span>
-                            <span class="font-bold">-6.35%</span>
+                    <div class="space-y-6">
+                        <div class="bg-white/50 p-4 rounded-xl">
+                            <div class="text-xs opacity-60">2024년 고령 사고 비중</div>
+                            <div class="text-3xl font-black">21.58%</div>
                         </div>
-                        <div class="flex justify-between items-center border-b pb-2" style="border-color: var(--color-accent1)">
-                            <span>고령 사고 증가율</span>
-                            <span class="font-bold text-red-500">+36.35%</span>
+                        <div class="bg-white/50 p-4 rounded-xl">
+                            <div class="text-xs opacity-60">5년간 고령 사고 증가율</div>
+                            <div class="text-3xl font-black text-red-500">+36.35%</div>
                         </div>
                     </div>
                 </div>
-
-                <div class="card p-6" style="background-color: var(--color-primary);">
-                    <h3 class="font-bold mb-4 flex items-center">
-                        <i class="fas fa-user-shield mr-2" style="color: var(--color-dark)"></i>
-                        긴급 안전 대책
-                    </h3>
-                    <ul class="space-y-2 text-xs opacity-80">
-                        <li>• 조건부 운전면허 제도 도입 검토</li>
-                        <li>• 페달 오조작 방지 장치 지원</li>
-                        <li>• 고령자 특화 적성검사 강화</li>
-                        <li>• 야간·고속도로 주행 제한 논의</li>
+                <div class="card p-8" style="background-color: var(--color-1);">
+                    <h4 class="font-bold mb-4">시급한 대책</h4>
+                    <ul class="space-y-3 text-sm">
+                        <li><i class="fas fa-check text-xs mr-2"></i> 페달 오조작 방지 장치 지원</li>
+                        <li><i class="fas fa-check text-xs mr-2"></i> 조건부 운전면허 제도 검토</li>
+                        <li><i class="fas fa-check text-xs mr-2"></i> 고령자 특화 적성검사 강화</li>
                     </ul>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- SECTION 2: 날씨별 주야간 사고 분석 -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+            <div class="lg:col-span-2">
+                <div class="card p-8 md:p-12">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="section-tag" style="background-color: var(--color-5)">기상 데이터</span>
+                        <h2 class="text-2xl md:text-3xl font-black">날씨가 바꾼 사고 공식: '밤낮의 경계' 실종</h2>
+                    </div>
+
+                    <div class="prose prose-lg text-gray-700 leading-relaxed mb-10">
+                        <p class="accent-border pl-5 mb-6" style="border-color: var(--color-5)">
+                            맑은 날은 '낮' 사고가 압도적이지만, <br>
+                            비가 오거나 흐려지면 낮과 밤의 위험도는 비슷해집니다.
+                        </p>
+                        <p class="mb-4">
+                            기상 상태에 따른 주야간 사고 비중 분석에 따르면, <strong>맑은 날</strong>은 낮 시간대 사고가 <strong>66.8%</strong>로 밤(33.2%)보다 두 배 이상 높습니다. 시야 확보가 용이한 맑은 날에는 활동량이 사고 빈도를 결정합니다.
+                        </p>
+                        <p>
+                            하지만 <strong>흐리거나 비가 오는 날</strong>은 상황이 바뀝니다. 밤 사고 비중이 각각 <strong>48.7%, 47.9%</strong>까지 치솟으며 낮과 밤의 비중이 사실상 5:5에 수렴합니다. 이는 기상 악화 시 야간 운전의 위험성이 평소보다 1.5배 가까이 높아짐을 시사합니다.
+                        </p>
+                    </div>
+
+                    <div class="bg-gray-50 p-6 rounded-2xl border border-dashed border-gray-200">
+                        <h3 class="text-center font-bold mb-4 text-sm uppercase tracking-widest opacity-60">기상 상태별 주야간 사고 비중 비교</h3>
+                        <canvas id="weatherAccidentChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="card p-8" style="background-color: var(--color-2);">
+                    <h3 class="text-xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-cloud-moon mr-2"></i> 날씨별 분석
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center text-sm border-b pb-2 border-black/10">
+                            <span>맑은 날 밤 사고</span>
+                            <span class="font-bold">33.2%</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b pb-2 border-black/10">
+                            <span>흐린 날 밤 사고</span>
+                            <span class="font-bold text-red-500">48.7%</span>
+                        </div>
+                        <div class="flex justify-between items-center text-sm border-b pb-2 border-black/10">
+                            <span>비 오는 날 밤 사고</span>
+                            <span class="font-bold text-red-500">47.9%</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="card p-8" style="background-color: var(--color-4); color: white;">
+                    <h4 class="font-bold mb-4">운전자 권고</h4>
+                    <p class="text-xs leading-relaxed opacity-90">
+                        비가 오거나 흐린 날은 낮에도 전조등을 켜야 합니다. 빛 반사로 인해 차선 식별이 어려워지는 야간에는 평소보다 20% 이상 감속 운전하는 것이 필수적입니다.
+                    </p>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <footer class="py-12 text-center opacity-60 text-sm" style="background-color: var(--color-secondary)">
-        <p>© 2024 Road Safety Data Report. All rights reserved.</p>
-        <p class="mt-2">제공 데이터: 고령자 유발 교통사고 통계 기반</p>
+    <footer class="py-16 text-center" style="background-color: var(--color-2)">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-2xl font-black mb-4 opacity-40">ROAD SAFETY DATA</div>
+            <p class="text-sm opacity-50">제공된 CSV 및 이미지 데이터를 바탕으로 작성된 데이터 저널리즘 리포트입니다.</p>
+            <p class="mt-2 text-xs opacity-40">© 2024 Data Insight Group. All rights reserved.</p>
+        </div>
     </footer>
 
     <script>
-        const ctx = document.getElementById('comparisonChart').getContext('2d');
-        
-        const colorTotal = '#e2e4f6'; 
-        const colorElderly = '#86626e'; 
-        const colorAccent = '#d8afc1'; 
+        // Common Chart Config
+        Chart.defaults.font.family = 'Pretendard';
+        Chart.defaults.color = '#86626e';
 
-        new Chart(ctx, {
+        // 1. 고령 사고 추이 차트 (Combo: Bar + Line)
+        const elderlyCtx = document.getElementById('elderlyAccidentChart').getContext('2d');
+        new Chart(elderlyCtx, {
             type: 'bar',
             data: {
                 labels: ['2020년', '2021년', '2022년', '2023년', '2024년'],
@@ -184,55 +244,74 @@
                     {
                         label: '전체 사고 수',
                         data: [209654, 203130, 196836, 198296, 196349],
-                        backgroundColor: colorTotal,
-                        borderRadius: 8,
-                        yAxisID: 'y',
-                        order: 2
+                        backgroundColor: '#e2e4f6',
+                        borderRadius: 10,
+                        order: 2,
+                        yAxisID: 'y'
                     },
                     {
-                        label: '고령 운전자 사고 수',
+                        label: '고령 유발 사고',
                         data: [31072, 31841, 34652, 39614, 42369],
                         type: 'line',
-                        borderColor: colorElderly,
-                        backgroundColor: colorElderly,
+                        borderColor: '#86626e',
                         borderWidth: 4,
-                        pointBackgroundColor: colorAccent,
-                        pointRadius: 5,
-                        fill: false,
-                        yAxisID: 'y1',
+                        pointBackgroundColor: '#d8afc1',
+                        pointBorderColor: 'white',
+                        pointBorderWidth: 2,
+                        pointRadius: 6,
+                        tension: 0.3,
                         order: 1,
-                        tension: 0.3
+                        yAxisID: 'y1'
                     }
                 ]
             },
             options: {
                 responsive: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            font: { family: 'Pretendard' }
-                        }
+                    legend: { position: 'top' }
+                },
+                scales: {
+                    y: { position: 'left', grid: { display: false } },
+                    y1: { position: 'right', grid: { color: '#f0f0f0' } }
+                }
+            }
+        });
+
+        // 2. 기상별 주야 사고 차트 (Grouped Bar)
+        const weatherCtx = document.getElementById('weatherAccidentChart').getContext('2d');
+        new Chart(weatherCtx, {
+            type: 'bar',
+            data: {
+                labels: ['맑음', '흐림', '비'],
+                datasets: [
+                    {
+                        label: '낮 (06시-18시)',
+                        data: [66.8, 51.3, 52.1],
+                        backgroundColor: '#defffc',
+                        borderColor: '#86626e',
+                        borderWidth: 1,
+                        borderRadius: 6
+                    },
+                    {
+                        label: '밤 (18시-06시)',
+                        data: [33.2, 48.7, 47.9],
+                        backgroundColor: '#d8afc1',
+                        borderColor: '#86626e',
+                        borderWidth: 1,
+                        borderRadius: 6
                     }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' }
                 },
                 scales: {
                     y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: { display: true, text: '전체 사고 (건)' },
-                        grid: { drawOnChartArea: false }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: { display: true, text: '고령 사고 (건)' },
-                        grid: { color: '#f0f0f0' }
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: '비중 (%)' }
                     }
                 }
             }
