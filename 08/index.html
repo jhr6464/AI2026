@@ -109,12 +109,12 @@
                 <a href="#routes" class="bg-[#fff5fc] text-[#86626e] hover:bg-white px-8 py-4 rounded-full font-bold transition-all shadow-lg flex items-center justify-center gap-2">
                     코스 탐색하기 <i class="fa-solid fa-arrow-right"></i>
                 </a>
-                <!-- 파일 경로 수정: 언더바 포함 -->
                 <div class="flex gap-2">
                     <button onclick="openModal()" class="border border-[#fff5fc]/40 hover:bg-[#fff5fc]/10 text-[#fff5fc] px-6 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-sm active:scale-95">
                         <i class="fa-solid fa-eye"></i> 기획서 보기
                     </button>
-                    <a href="./관광_콘텐츠_기획서.pdf" download="관광_콘텐츠_기획서.pdf" class="bg-white/10 hover:bg-white/20 text-[#fff5fc] px-6 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-sm active:scale-95 border border-[#fff5fc]/20">
+                    <!-- 파일 경로 및 다운로드 이름 수정: busantour.pdf -->
+                    <a href="./busantour.pdf" download="busantour.pdf" class="bg-white/10 hover:bg-white/20 text-[#fff5fc] px-6 py-4 rounded-full font-bold transition-all flex items-center justify-center gap-2 backdrop-blur-sm active:scale-95 border border-[#fff5fc]/20">
                         <i class="fa-solid fa-download"></i> 다운로드
                     </a>
                 </div>
@@ -223,7 +223,6 @@
                         </ul>
                     </div>
                 </div>
-                <!-- Route 1 & 2 content removed for brevity but logic remains -->
             </div>
         </div>
     </section>
@@ -237,8 +236,8 @@
                 <button onclick="openModal()" class="bg-[#fff5fc] text-[#86626e] hover:bg-white px-10 py-4 rounded-full font-bold text-lg transition-all shadow-xl hover:-translate-y-1 inline-flex items-center gap-2 active:scale-95">
                     <i class="fa-solid fa-magnifying-glass"></i> 기획서 미리보기
                 </button>
-                <!-- 파일 경로 수정: 언더바 포함 -->
-                <a href="./관광_콘텐츠_기획서.pdf" download="관광_콘텐츠_기획서.pdf" class="border border-[#fff5fc]/40 hover:bg-[#fff5fc]/10 text-[#fff5fc] px-10 py-4 rounded-full font-bold text-lg transition-all inline-flex items-center gap-2 active:scale-95 backdrop-blur-sm">
+                <!-- 파일 경로 수정: busantour.pdf -->
+                <a href="./busantour.pdf" download="busantour.pdf" class="border border-[#fff5fc]/40 hover:bg-[#fff5fc]/10 text-[#fff5fc] px-10 py-4 rounded-full font-bold text-lg transition-all inline-flex items-center gap-2 active:scale-95 backdrop-blur-sm">
                     <i class="fa-solid fa-download"></i> 직접 다운로드
                 </a>
             </div>
@@ -283,9 +282,9 @@
                     </ul>
                 </section>
                 <div class="bg-gray-50 p-6 rounded-2xl text-center border border-dashed border-gray-300">
-                    <p class="text-sm text-gray-500 mb-4">언더바(_)가 포함된 파일명으로 수정되었습니다.</p>
-                    <a href="./관광_콘텐츠_기획서.pdf" download="관광_콘텐츠_기획서.pdf" class="text-[#86626e] underline font-bold">
-                        <i class="fa-solid fa-download"></i> 수정된 경로로 다운로드 시도
+                    <p class="text-sm text-gray-500 mb-4">파일 이름이 'busantour.pdf'로 통합 관리됩니다.</p>
+                    <a href="./busantour.pdf" download="busantour.pdf" class="text-[#86626e] underline font-bold">
+                        <i class="fa-solid fa-download"></i> busantour.pdf 다운로드
                     </a>
                 </div>
             </div>
