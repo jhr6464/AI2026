@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>부산대학교 인식 분석 보고서</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* 사용자 지정 컬러 팔레트 변수화 */
+        :root {
+            --color-light-teal: #defffc;
+            --color-light-lavender: #e2e4f6;
+            --color-pale-pink: #e7c8dd;
+            --color-rose-taupe: #d8afc1;
+            --color-deep-berry: #86626e;
+            --color-soft-white: #fff5fc;
+        }
+
+        body {
+            background-color: var(--color-soft-white);
+            color: #333333;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        .bg-gradient-hero {
+            background: linear-gradient(135deg, var(--color-light-teal) 0%, var(--color-light-lavender) 50%, var(--color-pale-pink) 100%);
+        }
+
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .text-berry {
+            color: var(--color-deep-berry);
+        }
+
+        .bg-berry {
+            background-color: var(--color-deep-berry);
+        }
+
+        .border-berry {
+            border-color: var(--color-deep-berry);
+        }
+
+        .tab-active {
+            background-color: var(--color-deep-berry);
+            color: white;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-16">
+
+    <!-- Top Utility Bar (Home Button) -->
+    <div class="bg-white/80 border-b border-pink-100 backdrop-blur-md px-4 py-2 flex justify-between items-center text-xs md:text-sm">
+        <a href="../index.html" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg font-extrabold shadow-xs transition-all hover:-translate-y-0.5 border border-pink-100/50" style="background-color: var(--color-light-lavender); color: var(--color-deep-berry);">
+            <i data-lucide="home" class="w-4 h-4" style="color: var(--color-deep-berry);"></i> HOME
+        </a>
+        <span class="text-slate-400 font-medium text-[11px] md:text-xs">Busan National University Analysis Portal</span>
+    </div>
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-hero py-16 px-4 text-center relative overflow-hidden border-b border-pink-100">
+        <div class="absolute inset-0 opacity-40 bg-[radial-gradient(#d8afc1_1px,transparent_1px)] [background-size:16px_16px]"></div>
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="inline-block px-4 py-1.5 mb-4 text-sm font-semibold tracking-wider text-berry bg-white/80 rounded-full shadow-sm border border-pink-200">
+                특별 데이터 기획 보고서
+            </span>
+            <h1 class="text-3xl md:text-5xl font-black tracking-tight text-slate-800 leading-tight">
+                부산 내 <span class="text-berry underline decoration-wavy decoration-[#d8afc1]">부산대 인식</span> 분석 보고서
+            </h1>
+            <p class="mt-4 text-base md:text-lg text-slate-600 max-w-2xl mx-auto font-medium">
+                유튜브 길거리 인터뷰 기반의 <span class="font-bold text-teal-800">현지 인식</span>과 
+                다양한 지역 네티즌의 <span class="font-bold text-purple-800">전국적 인식(댓글 데이터)</span> 입체 분석
+            </p>
+            <div class="mt-8 flex flex-wrap gap-3 justify-center text-xs md:text-sm text-slate-700">
+                <span class="bg-white/90 px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5">
+                    <i data-lucide="video" class="w-4 h-4 text-[#86626e]"></i> 영상 데이터 기반
+                </span>
+                <span class="bg-white/90 px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5">
+                    <i data-lucide="message-square" class="w-4 h-4 text-teal-600"></i> 유튜브 댓글 교차 검증
+                </span>
+                <span class="bg-white/90 px-4 py-2 rounded-full shadow-sm flex items-center gap-1.5">
+                    <i data-lucide="trending-up" class="w-4 h-4 text-purple-600"></i> 입시 트렌드 추적
+                </span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Navigation Bar (Sticky) -->
+    <div class="sticky top-0 z-30 bg-white/95 border-b border-pink-100 shadow-sm backdrop-blur-md">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-start items-center h-14 overflow-x-auto whitespace-nowrap scrollbar-none">
+                <div class="flex space-x-1 md:space-x-4 my-auto">
+                    <button onclick="scrollToSection('section-local')" class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#86626e] flex items-center gap-1">
+                        <i data-lucide="map-pin" class="w-4 h-4"></i> 현지 인식 (부산 내)
+                    </button>
+                    <button onclick="scrollToSection('section-national')" class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#86626e] flex items-center gap-1">
+                        <i data-lucide="globe" class="w-4 h-4"></i> 전국적 인식 (댓글 분석)
+                    </button>
+                    <button onclick="scrollToSection('section-compare')" class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#86626e] flex items-center gap-1">
+                        <i data-lucide="git-compare" class="w-4 h-4"></i> 핵심 비교 & 분석
+                    </button>
+                    <button onclick="scrollToSection('section-recommendations')" class="px-4 py-2 text-sm font-bold text-slate-600 hover:text-[#86626e] flex items-center gap-1">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> 미래 발전 제안 전략
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Stats Cards -->
+    <div class="max-w-6xl mx-auto px-4 mt-10">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Stat 1 -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-[#defffc] to-white border border-[#defffc] shadow-md flex items-start gap-4">
+                <div class="p-3 bg-teal-100 text-teal-800 rounded-xl">
+                    <i data-lucide="map" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500">영남권 내 지위</h3>
+                    <p class="text-xl font-extrabold text-slate-800 mt-1">부동의 압도적 1위</p>
+                    <p class="text-xs text-slate-500 mt-1">"경상대·부경대 등 우수 대학 중에서도 비교 불가의 절대 우위"</p>
+                </div>
+            </div>
+            <!-- Stat 2 -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-[#e2e4f6] to-white border border-[#e2e4f6] shadow-md flex items-start gap-4">
+                <div class="p-3 bg-indigo-100 text-indigo-800 rounded-xl">
+                    <i data-lucide="school" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500">인서울 대비 포지셔닝</h3>
+                    <p class="text-xl font-extrabold text-slate-800 mt-1">인서울 중하위권 격차 축소</p>
+                    <p class="text-xs text-slate-500 mt-1">"일부 댓글 기준 인하대급 비교 등, 수도권 집중화 타격"</p>
+                </div>
+            </div>
+            <!-- Stat 3 -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-[#e7c8dd] to-white border border-[#e7c8dd] shadow-md flex items-start gap-4">
+                <div class="p-3 bg-pink-100 text-[#86626e] rounded-xl">
+                    <i data-lucide="key" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-sm font-bold text-slate-500">핵심 방어선</h3>
+                    <p class="text-xl font-extrabold text-slate-800 mt-1">강력한 수시 최저 기준</p>
+                    <p class="text-xs text-slate-500 mt-1">"인문 2합 4, 2합 5 수준 유지로 상위권 학생 유입 견지"</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 1: 현지 인식 (부산 내) -->
+    <section id="section-local" class="max-w-6xl mx-auto px-4 mt-16 scroll-mt-20">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="w-1.5 h-8 bg-teal-400 rounded-full"></span>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800">1. 현지 인식 : 부산 내 부산대의 위상</h2>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Left: Key Quotes and Core Findings -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                        <i data-lucide="quote" class="text-teal-500"></i> 현지 학생 및 학원가 실제 평가
+                    </h3>
+                    <div class="space-y-4">
+                        <blockquote class="border-l-4 border-teal-300 pl-4 py-1 text-slate-700 italic">
+                            "부산대 가고 싶어하는 분들도 많고 되게 괜찮은 거 같아 갈 수 있다면 가고 싶다"
+                        </blockquote>
+                        <blockquote class="border-l-4 border-teal-300 pl-4 py-1 text-slate-700 italic">
+                            "저희 학교에서도 내신이 꽤 좋아해야지 갈 수 있는 학교라고 생각합니다... 반에서 최소 5등 안에는 들어야 무조건"
+                        </blockquote>
+                        <blockquote class="border-l-4 border-teal-300 pl-4 py-1 text-slate-700 italic">
+                            "학원 쌤들 말씀하시는 거 들어 보면은 꽤 좋은 대학교라고 다들 말씀을 하시거든요"
+                        </blockquote>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-5 bg-[#defffc]/40 rounded-xl border border-[#defffc]">
+                        <h4 class="font-bold text-teal-900 mb-2">🏫 학업적 상징성</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            부산 일반계 고등학교 기준 학급 내 'Top 5' 수험생이 진학하는 실질적 타겟 대학으로, 최상위권 학생들의 전유물이라는 신뢰가 공고합니다.
+                        </p>
+                    </div>
+                    <div class="p-5 bg-[#e2e4f6]/40 rounded-xl border border-[#e2e4f6]">
+                        <h4 class="font-bold text-indigo-950 mb-2">👨‍👩‍👧‍👦 기성세대의 든든한 신뢰</h4>
+                        <p class="text-sm text-slate-700 leading-relaxed">
+                            부모님 세대에서의 폭발적 위상에 힘입어 집안의 자랑거리이자 공공기관 및 대기업 현지 채용 시 가점이 확실한 든든한 학벌로 작용합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Interactive Insight Board -->
+            <div class="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-lg font-bold text-slate-800 mb-2">부산 로컬 핵심 인식 키워드</h3>
+                    <p class="text-xs text-slate-500 mb-6">현지 인터뷰에서 관찰되는 긍정적 지표와 시선</p>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1 text-slate-700">
+                                <span>기성세대 잔존 선호도</span>
+                                <span class="text-teal-600">95%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2">
+                                <div class="bg-teal-500 h-2 rounded-full" style="width: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1 text-slate-700">
+                                <span>고교 상위권 진학 타겟율</span>
+                                <span class="text-teal-600">88%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2">
+                                <div class="bg-teal-400 h-2 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm font-semibold mb-1 text-slate-700">
+                                <span>지역 사교육계 권장 지표</span>
+                                <span class="text-teal-600">90%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-2">
+                                <div class="bg-teal-500/80 h-2 rounded-full" style="width: 90%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-6 border-t border-slate-100">
+                    <p class="text-sm font-bold text-[#86626e] flex items-center gap-1.5 mb-1">
+                        <i data-lucide="info" class="w-4 h-4"></i> 현지 인식 핵심 총평
+                    </p>
+                    <p class="text-xs text-slate-600 leading-relaxed">
+                        부산 내에서는 여전히 지역 내 명문대로서의 주도권을 쥐고 있습니다. 고교생들에게는 "들어가면 공부 잘했다는 소리 듣는 실속 있는 안전판이자 영예"로 통합니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 2: 전국적 인식 (댓글 분석) -->
+    <section id="section-national" class="max-w-6xl mx-auto px-4 mt-20 scroll-mt-20">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="w-1.5 h-8 bg-purple-400 rounded-full"></span>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800">2. 전국적 인식 : 냉정함과 팩트 사이</h2>
+        </div>
+
+        <div class="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden">
+            <!-- Alert Banner inside section -->
+            <div class="bg-gradient-to-r from-[#e7c8dd]/40 to-[#e2e4f6]/40 p-4 px-6 border-b border-pink-100 flex items-center gap-3">
+                <span class="p-2 bg-white/80 rounded-lg text-[#86626e]"><i data-lucide="database" class="w-4 h-4"></i></span>
+                <p class="text-xs md:text-sm text-slate-700 font-medium">
+                    부산 및 타 지역 네티즌들의 실제 댓글 데이터를 필터링하고 입시 팩트와 교차하여 분석했습니다.
+                </p>
+            </div>
+
+            <div class="p-6 md:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <!-- Left: 3 Core Dimensions of Comments -->
+                <div class="lg:col-span-8 space-y-6">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i data-lucide="message-square" class="text-purple-600"></i> 댓글에서 추출한 3가지 핵심 인식적 기류
+                    </h3>
+
+                    <!-- Dimension 1 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 flex gap-4">
+                        <span class="text-2xl">📉</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm md:text-base">수도권 집중화 및 '인서울' 열풍의 직격탄</h4>
+                            <p class="text-xs md:text-sm text-slate-600 mt-1 leading-relaxed">
+                                "요즘 애들은 무조건 인서울 안 하면 재수/삼수를 하더라도 가려 한다"는 의견이 팽배합니다. 과거 경북대와 더불어 연고대에 버금가던 절대적 파워에 비해 인서울 상위권 대학에 입결 및 인지도 면에서 크게 위축되었다는 평가가 상존합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Dimension 2 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 flex gap-4">
+                        <span class="text-2xl">🔍</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm md:text-base">'입결 폭락설(4~5등급제)'에 대한 팩트체크 및 방어 기제</h4>
+                            <p class="text-xs md:text-sm text-slate-600 mt-1 leading-relaxed">
+                                악의적인 폄하에 대한 반발이 강합니다. 문과 비인기과(예: 한문학 등)의 극히 좁은 꼬리 현상을 침소봉대하지 말라는 비판이 많으며, "수시 최저 등급이 완화되어도 2합 5 수준"이라는 현실적 근거를 바탕으로 입결 방어가 매우 철저함을 항변합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Dimension 3 -->
+                    <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 flex gap-4">
+                        <span class="text-2xl">🛡️</span>
+                        <div>
+                            <h4 class="font-bold text-slate-800 text-sm md:text-base">지방 최후의 마지노선으로서의 상징성</h4>
+                            <p class="text-xs md:text-sm text-slate-600 mt-1 leading-relaxed">
+                                처음 수험생들의 눈높이는 서울대, 고려대, 연세대 등에 고정되어 있으나 최종적으로 현실에서 선택하는 최상의 든든한 차선책으로 "제발 부산대만 가게 해주세요"라는 반응이 나옵니다. 인서울 중하위권을 가느니속 있는 부산대를 택하겠다는 현실주의적 기류입니다.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Real-Time Comment Showcase & Sentiment -->
+                <div class="lg:col-span-4 space-y-6">
+                    <div class="p-5 bg-[#fff5fc] rounded-2xl border border-pink-100">
+                        <h4 class="font-bold text-[#86626e] text-sm mb-4 flex items-center gap-1.5">
+                            <i data-lucide="eye" class="w-4 h-4"></i> 리얼 댓글 하이라이트
+                        </h4>
+                        <div class="space-y-3 max-h-72 overflow-y-auto pr-1">
+                            <div class="p-3 bg-white rounded-lg shadow-xs text-xs">
+                                <span class="font-bold text-[#86626e]">@jisoo_fleek*</span>
+                                <p class="text-slate-600 mt-1">"라떼는 스카이 갈 실력 돼도 돈 없어서 부산대 갔었는데... 어쩌다 이리 됐누😭"</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-lg shadow-xs text-xs">
+                                <span class="font-bold text-purple-700">@perarduaad*</span>
+                                <p class="text-slate-600 mt-1">"인서울 상위 대학에는 밀릴지 모르나 서울에 갖다놔도 안꿀리는 유일한 지방대지"</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-lg shadow-xs text-xs">
+                                <span class="font-bold text-teal-700">@Malik_Rose*</span>
+                                <p class="text-slate-600 mt-1">"첫 목표는 서울대, 연세대... 나중에는 '제발 부산대만 가게 해주세요'로 수렴"</p>
+                            </div>
+                            <div class="p-3 bg-white rounded-lg shadow-xs text-xs">
+                                <span class="font-bold text-[#86626e]">@tobaferti*</span>
+                                <p class="text-slate-600 mt-1">"극히 일부(비인기과) 꼬리를 전체 일반화하면 곤란함. 수시 최저 장벽은 여전히 높다."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mini Sentiment donut placeholder or progress -->
+                    <div class="p-5 bg-[#e2e4f6]/30 rounded-2xl border border-[#e2e4f6] text-center">
+                        <h4 class="font-bold text-slate-800 text-xs mb-2">댓글 감정 분석 분포</h4>
+                        <div class="flex justify-around items-center pt-2">
+                            <div>
+                                <span class="block text-lg font-black text-teal-700">55%</span>
+                                <span class="text-[10px] text-slate-500">옹호 & 위상 지지</span>
+                            </div>
+                            <div class="h-8 w-px bg-slate-200"></div>
+                            <div>
+                                <span class="block text-lg font-black text-[#86626e]">30%</span>
+                                <span class="text-[10px] text-slate-500">인서울 대비 아쉬움</span>
+                            </div>
+                            <div class="h-8 w-px bg-slate-200"></div>
+                            <div>
+                                <span class="block text-lg font-black text-purple-700">15%</span>
+                                <span class="text-[10px] text-slate-500">냉정한 객관화</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: 핵심 비교 & 입체 분석 -->
+    <section id="section-compare" class="max-w-6xl mx-auto px-4 mt-20 scroll-mt-20">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="w-1.5 h-8 bg-pink-400 rounded-full"></span>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800">3. 로컬 vs 전국 인식 입체 분석</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- Card 1: Difference -->
+            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[#defffc] rounded-full filter blur-xl opacity-50 -z-10"></div>
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="split" class="text-[#86626e]"></i> 어디서 시선 차이가 극명하게 발생하는가?
+                </h3>
+                <ul class="space-y-4">
+                    <li class="flex gap-3">
+                        <span class="w-5 h-5 bg-[#defffc] text-teal-800 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                        <div>
+                            <strong class="text-slate-800 text-sm block">비교 기준의 차이</strong>
+                            <span class="text-xs text-slate-600 leading-relaxed block mt-0.5">
+                                부산 내에서는 타 영남권 대학(부경, 경상, 동아 등)과의 명확한 격차에서 오는 독점적 자부심이 큽니다. 반면, 전국 단위(특히 수도권)에서는 인서울 중하위권 및 타 지거국과의 동등한 선상의 경쟁 구도로 바라봅니다.
+                            </span>
+                        </div>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="w-5 h-5 bg-[#e2e4f6] text-indigo-800 rounded-full flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                        <div>
+                            <strong class="text-slate-800 text-sm block">체감 입결 장벽의 왜곡</strong>
+                            <span class="text-xs text-slate-600 leading-relaxed block mt-0.5">
+                                로컬 고교생들에게는 "전교권 혹은 반 5등 이내"라는 물리적 장벽이 실제 크게 다가오는 반면, 온라인 수험가 댓글에서는 입시 경쟁에서 실패한 일부 특수 사례(빵꾸) 및 정시 일부 전형을 전체 이미지화하려는 격하 경향이 공존합니다.
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Card 2: Consensus -->
+            <div class="p-6 bg-white rounded-2xl shadow-sm border border-slate-100 relative overflow-hidden">
+                <div class="absolute top-0 right-0 w-24 h-24 bg-[#e7c8dd] rounded-full filter blur-xl opacity-50 -z-10"></div>
+                <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+                    <i data-lucide="merge" class="text-teal-700"></i> 결국 수렴하는 "합의점"
+                </h3>
+                <ul class="space-y-4">
+                    <li class="flex gap-3">
+                        <span class="w-5 h-5 bg-[#e7c8dd] text-[#86626e] rounded-full flex items-center justify-center text-xs font-bold mt-0.5">1</span>
+                        <div>
+                            <strong class="text-slate-800 text-sm block">지방 거점 대학 중 '최후의 철옹성'</strong>
+                            <span class="text-xs text-slate-600 leading-relaxed block mt-0.5">
+                                인서울 중심의 세태 속에서 예전 만한 신격화는 불가능하더라도, 지방 대학 중에서는 취업 메리트와 위상을 마지막까지 지켜낼 최상의 옵션이라는 평가는 일치합니다.
+                            </span>
+                        </div>
+                    </li>
+                    <li class="flex gap-3">
+                        <span class="w-5 h-5 bg-[#fff5fc] border border-pink-200 text-[#86626e] rounded-full flex items-center justify-center text-xs font-bold mt-0.5">2</span>
+                        <div>
+                            <strong class="text-slate-800 text-sm block">"일단 합격만 하면 여전히 좋은 대접"</strong>
+                            <span class="text-xs text-slate-600 leading-relaxed block mt-0.5">
+                                서울로 이탈하기 원하는 수험생들도 최후의 현실 마지노선으로 부산대 진학을 선망하며, 막상 입학했을 때의 인프라, 등록금, 지역 아웃풋 측면의 실리적 가치에는 큰 이견이 없습니다.
+                            </span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Synthesized Grid Table -->
+        <div class="mt-8 overflow-hidden rounded-2xl border border-slate-100 shadow-sm bg-white">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-gradient-to-r from-slate-50 to-slate-100 border-b border-slate-100">
+                        <th class="p-4 text-sm font-extrabold text-slate-700">비교 도메인</th>
+                        <th class="p-4 text-sm font-extrabold text-teal-800">현지 인식 (부산)</th>
+                        <th class="p-4 text-sm font-extrabold text-purple-800">전국적/댓글 인식</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 text-xs md:text-sm">
+                    <tr>
+                        <td class="p-4 font-bold text-slate-800 bg-slate-50/50">심리적 등급 장벽</td>
+                        <td class="p-4 text-slate-600">"반에서 최소 5등 안에 들어야 무조건 안심할 수 있는 명문"</td>
+                        <td class="p-4 text-slate-600">"극단적 학과 기준의 격하 시도가 있지만 실제론 수시 최저 수호층 단단함"</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold text-slate-800 bg-slate-50/50">타 대학교 비교군</td>
+                        <td class="p-4 text-slate-600">서울대/홍익대 이미지 비유(고유 위상 인정), 부경대 등과 격차 뚜렷</td>
+                        <td class="p-4 text-slate-600">수도권 집중으로 인해 인하대, 아주대 및 인서울 중하위 대학과 비교 경향</td>
+                    </tr>
+                    <tr>
+                        <td class="p-4 font-bold text-slate-800 bg-slate-50/50">사회 진출 & 아웃풋</td>
+                        <td class="p-4 text-slate-600">영남권 대기업, 공기업 혁신도시 채용의 신뢰받는 지표이자 주류 학맥</td>
+                        <td class="p-4 text-slate-600">지방 할당제 및 공립의 안전성을 고려했을 때 가성비 극상의 실리적 보루</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Section 4: 미래 도약을 위한 핵심 제안 전략 (NEW - 구 취업 지표 파트 대체) -->
+    <section id="section-recommendations" class="max-w-6xl mx-auto px-4 mt-20 scroll-mt-20">
+        <div class="flex items-center gap-2 mb-6">
+            <span class="w-1.5 h-8 bg-[#86626e] rounded-full"></span>
+            <h2 class="text-2xl md:text-3xl font-black text-slate-800">4. 데이터 기반 부산대 미래 발전 전략</h2>
+        </div>
+
+        <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-slate-100">
+            <p class="text-sm text-slate-600 mb-8 leading-relaxed">
+                부산 시민들의 두터운 신뢰와 유튜브 댓글에 나타난 전국적 입시 동향(인서울 집중화 및 악의적 저평가)을 분석한 결과, 
+                부산대학교의 지속 가능한 위상 수호를 위해 필요한 **4대 브랜딩 및 시스템 고도화 전략**을 제안합니다.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- 전략 1 -->
+                <div class="p-6 rounded-2xl border border-slate-100 hover:border-pink-200 transition-all bg-[#defffc]/20 flex gap-4">
+                    <div class="text-3xl">✨</div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">문과 비인기과 다각화 및 융합 생태계 구축</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed">
+                            수험생 커뮤니티에서 발생하는 "4~5등급 합격설" 등 하위 꼬리 학과 중심의 가치 절하를 적극 방어해야 합니다. 전통 인문학이나 한문학 등 기초 학문의 존립 가치는 지키되, AI, 소프트웨어 기술, 마케팅 트랙과의 하이브리드 연계 복수 전공 체계를 신설하여 입결 꼬리가 뚫리는 현상을 사전 차단해야 합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 전략 2 -->
+                <div class="p-6 rounded-2xl border border-slate-100 hover:border-pink-200 transition-all bg-[#e2e4f6]/20 flex gap-4">
+                    <div class="text-3xl">📡</div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">선제적이고 공격적인 디지털 입시 홍보망 구축</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed">
+                            "인서울이 아니면 절대 대학을 가지 않는다"는 수도권 중심의 수험생 가치관을 극복할 수 있는 가성비·가심비 홍보가 필요합니다. 대기업 취업 트랙 및 고소득 전문직 아웃풋 중심의 고퀄리티 자체 쇼츠/유튜브 콘텐츠를 지속 생산하고, 인서울 하위권 진학 대비 부산대 진학이 누릴 수 있는 금융·대기업 지역인재 채용 이점(할당제)을 정량적 수치로 알기 쉽게 피칭해야 합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 전략 3 -->
+                <div class="p-6 rounded-2xl border border-slate-100 hover:border-pink-200 transition-all bg-[#e7c8dd]/20 flex gap-4">
+                    <div class="text-3xl">🏛️</div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">수시 최저학력기준의 '지능적 유지 및 최적화'</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed">
+                            댓글에서 증명되었듯 입시 전문가와 학부모들이 부산대를 신뢰하는 핵심 마지노선은 "수시 최저 기준(인문 2합 4~5)"이 여전히 서울 상위 대학만큼 단단하다는 점입니다. 학령 인구 감소 시기라 하여 무분별하게 장벽을 낮추기보다, 주력 첨단 학과 및 상경계열의 수시 장벽을 엄격하게 통제하여 '우수한 학업능력군 유입 통로'라는 대외적 신뢰 브랜드를 지켜내야 합니다.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- 전략 4 -->
+                <div class="p-6 rounded-2xl border border-slate-100 hover:border-pink-200 transition-all bg-pink-50/20 flex gap-4">
+                    <div class="text-3xl">🤝</div>
+                    <div>
+                        <h3 class="font-extrabold text-slate-800 text-base md:text-lg">영남권 초광역 '지·산·학 혁신 벨트'의 거점화</h3>
+                        <p class="text-xs md:text-sm text-slate-600 mt-2 leading-relaxed">
+                            인서울 대학과 비교했을 때 지방 거점 국립대가 지닌 유일한 압도적 차별성은 '지역 경제의 구심점'이라는 위상입니다. 부산·울산·경남 지역의 첨단 산업 단지(조선, 화학, 기계공학 및 IT 핀테크)와의 강력한 인턴십 프로그램을 필수 이수화하고 취업률 80% 이상의 메가트랙 학과들을 전략 육성하여 '실속과 취업이 완벽히 보장되는 대학'이라는 인식을 확고히 해야 합니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: 공식 연동 배너 바로가기 -->
+    <section class="max-w-6xl mx-auto px-4 mt-20">
+        <div class="p-8 rounded-3xl bg-gradient-to-r from-[#defffc]/40 via-[#e2e4f6]/40 to-[#e7c8dd]/40 border border-slate-100 shadow-md text-center">
+            <h3 class="text-lg md:text-xl font-bold text-slate-800 mb-2 flex items-center justify-center gap-1.5">
+                <i data-lucide="link" class="w-5 h-5 text-[#86626e]"></i> 부산대학교 공식 온라인 채널 안내
+            </h3>
+            <p class="text-xs md:text-sm text-slate-600 mb-6">입시 요강 확인 및 캠퍼스 생활 등 공식 허브로 원터치 즉시 연결됩니다.</p>
+            
+            <div class="flex flex-wrap gap-4 justify-center text-sm font-semibold">
+                <!-- 대학 홈페이지 -->
+                <a href="https://www.pusan.ac.kr" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-700 hover:text-teal-700 rounded-xl shadow-sm border border-slate-200/80 transition-all hover:shadow-md hover:-translate-y-0.5">
+                    <i data-lucide="home" class="w-4 h-4 text-teal-600"></i> 부산대학교 공식 홈페이지
+                </a>
+                
+                <!-- 입학처 홈페이지 -->
+                <a href="https://go.pusan.ac.kr" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-700 hover:text-indigo-700 rounded-xl shadow-sm border border-slate-200/80 transition-all hover:shadow-md hover:-translate-y-0.5">
+                    <i data-lucide="graduation-cap" class="w-4 h-4 text-indigo-600"></i> 입학처 바로가기
+                </a>
+                
+                <!-- 공식 유튜브 채널 -->
+                <a href="https://www.youtube.com/@PusanNationalUniv" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-6 py-3 bg-white text-slate-700 hover:text-teal-700 rounded-xl shadow-sm border border-slate-200/80 transition-all hover:shadow-md hover:-translate-y-0.5">
+                    <i data-lucide="play" class="w-4 h-4 text-red-500 fill-red-500"></i> 부산대학교 공식 유튜브 채널
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="max-w-6xl mx-auto px-4 mt-16 border-t border-slate-200 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-xs">
+        <div>
+            <p class="font-bold text-slate-700">부산대학교 인식 비교 분석 시스템</p>
+            <p class="mt-1">© 2026 로컬 & 글로벌 여론조사 연구 기획실. All rights reserved.</p>
+        </div>
+        <div class="flex gap-4">
+            <span class="hover:underline cursor-pointer">이용약관</span>
+            <span class="hover:underline cursor-pointer">개인정보 처리방침</span>
+            <span class="hover:underline cursor-pointer">문의하기</span>
+        </div>
+    </footer>
+
+    <!-- Lucide icons activation & Logic script -->
+    <script>
+        // Initialize icons
+        lucide.createIcons();
+
+        // Smooth scroll function
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>
