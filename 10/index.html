@@ -10,19 +10,19 @@
     
     <style>
         body { background-color: #fff5fc; color: #86626e; font-family: 'Noto Sans KR', sans-serif; }
-        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); }
+        .glass-card { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.5); box-shadow: 0 4px 6px rgba(134, 98, 110, 0.1); }
         .fade-img { transition: opacity 0.4s ease-in-out; }
     </style>
 </head>
 <body class="min-h-screen flex flex-col items-center">
 
-    <!-- 헤더: 타이틀 겹침 방지를 위해 flex-col과 p-8(패딩) 적용 -->
+    <!-- 헤더 -->
     <header class="w-full bg-gradient-to-br from-[#defffc] via-[#e2e4f6] to-[#e7c8dd] py-12 px-4 shadow-md">
         <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
             <span class="inline-block py-1 px-3 rounded-full bg-[#86626e] text-white text-xs font-bold mb-3">DATA ANALYSIS REPORT</span>
-            <h1 class="text-3xl md:text-5xl font-black text-[#86626e] mb-4">
+            <h1 class="text-2xl md:text-4xl lg:text-5xl font-black text-[#86626e] mb-4">
                 지방 청년 소실, <br class="md:hidden">
-                <span class="text-white bg-[#86626e] px-2 rounded">‘문화 인프라’</span>에서 답을 찾다
+                <span class="text-white bg-[#86626e] px-2 rounded">‘문화 인프라’</span>에서 <br class="hidden md:inline">답을 찾다
             </h1>
             <p class="text-sm md:text-lg text-[#86626e] font-medium">일자리 너머, 데이터로 증명하는 정주 여건의 중요성</p>
         </div>
@@ -30,6 +30,12 @@
 
     <main class="w-full max-w-5xl px-6 py-12 flex flex-col gap-12">
         
+        <!-- 분석 내용 섹션 -->
+        <section class="glass-card p-8 rounded-2xl">
+            <h2 class="text-2xl font-bold mb-4 border-b-2 border-[#d8afc1] pb-2">1. 일자리가 전부라는 착각</h2>
+            <p class="text-lg leading-relaxed">비슷한 일자리 수를 가지고 있는 지역도 문화 인프라(문화 교육 기관의 수)에 따라 청년 유출률이 크게 다릅니다. 본 분석은 청년층 유출을 방지하기 위한 대안으로 '문화 인프라 확충'의 중요성을 제기합니다.</p>
+        </section>
+
         <!-- 지도 섹션 -->
         <section class="glass-card p-6 rounded-2xl shadow-lg">
             <h2 class="text-xl font-bold mb-4 text-center">🗺️ 지역별 현황 지도 비교</h2>
@@ -43,10 +49,27 @@
             </div>
         </section>
 
+        <!-- 차트 섹션 -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold mb-4">일자리 수 vs 인구 증감</h3>
+                <canvas id="jobsChart"></canvas>
+            </div>
+            <div class="glass-card p-6 rounded-2xl">
+                <h3 class="text-lg font-bold mb-4">문화 인프라 vs 인구 증감</h3>
+                <canvas id="cultureChart"></canvas>
+            </div>
+        </section>
+
+        <!-- 결론 섹션 -->
+        <section class="glass-card p-8 rounded-2xl border-l-8 border-[#86626e]">
+            <h2 class="text-2xl font-bold mb-4">💡 최종 결론</h2>
+            <p class="text-lg leading-relaxed">청년층이 지역을 떠나는 이유는 단순히 일자리 문제가 아닙니다. 문화예술 교육기관과 같은 정주 여건이 갖춰진 지역일수록 청년층의 정착률이 높습니다. 이제는 단순 일자리 창출을 넘어, 삶의 질을 높이는 문화 인프라 정책이 병행되어야 합니다.</p>
+        </section>
     </main>
 
     <script>
-        // 이미지 전환 함수
+        // 지도 이미지 전환 함수
         function changeMap(type) {
             const img = document.getElementById('map-image');
             img.style.opacity = 0;
@@ -57,6 +80,13 @@
                 img.style.opacity = 1;
             }, 400);
         }
+
+        // 차트 렌더링
+        const ctxJobs = document.getElementById('jobsChart').getContext('2d');
+        new Chart(ctxJobs, { type: 'bar', data: { labels: ['경기', '서울', '부산', '경남'], datasets: [{ label: '일자리 수', data: [226, 197, 44, 44], backgroundColor: '#d8afc1' }] } });
+
+        const ctxCulture = document.getElementById('cultureChart').getContext('2d');
+        new Chart(ctxCulture, { type: 'bar', data: { labels: ['경기', '서울', '부산', '경남'], datasets: [{ label: '문화시설 수', data: [128, 108, 31, 24], backgroundColor: '#86626e' }] } });
     </script>
 </body>
 </html>
